@@ -1,0 +1,60 @@
+body{
+    margin: 0.5em;
+}
+hr{
+    border: 0.1em solid #95b2cf;
+    margin-top: -1.5em;
+}
+
+article{
+    margin: 2em;
+    margin-top: -1em;
+}
+button{
+    height: 3em;
+}
+
+.section-heading{
+    font-family: "Alatsi", serif;
+    font-size: 2em;
+    letter-spacing: 0.2em;
+    color: #95b2cf;
+}
+.section-feedback{
+    display: flex;
+    justify-content: space-between;
+    
+    align-items: center;
+}
+
+#contacts-container {
+    font-family: "Poppins", serif;
+    font-size: 1em;
+    background-color: #eef1f4; 
+    display: flex; 
+    justify-content: space-evenly;
+    padding: 0.2em;
+    border-radius: 3em;
+}
+
+.contact-item{
+    display: flex;
+}
+
+.contact-item img{
+    height:2em;
+    padding: 0.5em;
+}
+
+#head-name{
+    font-family: "Hanken Grotesk", serif;
+    font-size: 3em;
+    text-align: center;
+    padding: 0.2em;
+    color: #95b2cf;
+}
+
+.text{
+    font-family: "Poppins", serif;
+    font-size: 1em;
+}
