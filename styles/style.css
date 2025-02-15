@@ -24,6 +24,13 @@ section{
     font-family: "Poppins", serif;
     color: #747370;
 }
+.certifications-table{
+    width: 100%;
+    font-family: "Poppins", serif;
+}
+.cerificate{
+    padding-bottom: 1em;
+}
 
 .education-table td{
     padding-top: 1em;
