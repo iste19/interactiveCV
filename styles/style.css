@@ -93,3 +93,7 @@ section{
     font-family: "Poppins", serif;
     font-size: 1em;
 }
+.diamond{
+    height: 1em;
+    margin-bottom: -0.2em;
+}
