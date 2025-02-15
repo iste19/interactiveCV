@@ -36,6 +36,9 @@ section{
     padding-top: 1em;
 }
 
+.studies{
+    margin-top: -1em;
+}
 .date{
     text-align: right;
     vertical-align: top;
