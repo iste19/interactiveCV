@@ -206,14 +206,14 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
-.timeline {
+#timeline {
     position: relative;
     margin: 0 auto;
     padding: 40px 20px;
     
 }
 
-.timeline::after {
+#timeline::after {
     content: '';
     position: absolute;
     width: 3px;
