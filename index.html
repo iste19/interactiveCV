@@ -12,7 +12,12 @@
     />
   </head>
   <body>
-    <header id="head-name">ISTEFAT SAWDA</header>
+    <header class="header-container">
+        <img src="assets/favicon.ico" alt="iste logo">
+        ISTEFAT SAWDA
+    </header>
+
+    
     <div id="contacts-container">
       <a href="https://github.com/iste19">
         <div class="contact-item">
@@ -32,7 +37,19 @@
           <p>www.linkedin.com/in/istefat-sawda</p>
         </div>
       </a>
+
     </div>
+
+    <div class="darkmodetog">
+      <div>Dark Mode</div>
+
+      <label class="switch">
+        <input type="checkbox" id="darkModeToggle">
+        <span class="slider round"></span>
+      </label>
+
+    </div>
+
     <article>
       <section>
         <div class="section-feedback">
@@ -70,7 +87,30 @@
           <button>Anonymous Feedback</button>
         </div>
         <hr />
-        <p class="text">blabla</p>
+        <table class="education-table">
+          <tr>
+            <td>
+              <strong>UNIVERSITY OF AUCKLAND</strong>
+              <br />
+              BACHELOR OF SCIENCE (BSC) | <strong>COMPUTER SCIENCE</strong>
+            </td>
+            <td class="date">Feb 2021 - Nov 2024</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>UNIVERSITY OF WASHINGTON (EXCHANGE PROGRAM)</strong>
+              <br />
+              BACHELOR OF SCIENCE (BSC) | <strong>COMPUTER SCIENCE</strong>
+            </td>
+            <td class="date">Sep 2023 - Dec 2023</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>MOUNT ALBERT GRAMMAR SCHOOL</strong>
+            </td>
+            <td class="date">Jan 2016 - Dec 2020</td>
+          </tr>
+        </table>
       </section>
 
       <section>
@@ -79,7 +119,80 @@
           <button>Anonymous Feedback</button>
         </div>
         <hr />
-        <p class="text">blabla</p>
+        
+        <div class="project">
+            <p class="project-heading">
+                <strong>GraphQL Schema Federation Exploration</strong>
+            </p>
+            <p class="text">
+                Worked on an 7-person experimental full-stack project at <strong>Pushpay</strong> to explore the potential transition from GraphQL schema stitching to schema federation using HotChocolate and C# (.NET).
+                <ul>
+                    <li>
+                        <strong>Tech utilised:</strong> React, TypeScript, Tailwind CSS, GraphQL, Auth0, Docker, AWS, Terraform, Jenkins, Jira, Git, Github
+                    </li>
+                </ul>
+            </p>
+        </div>
+
+        <div class="project">
+            <p class="project-heading">
+                <strong>Te Tuhi Disability Training Cafe Platform for Trainees</strong>
+            </p>
+            <p class="text">
+                Inkā is a one-stop platform for monitoring trainee progress and fostering personalised learning in a cafe environment. Developed in a 5-person capstone team, I worked as a Full-Stack developer, responsible for designing and implementing front-end and back-end features, integrating AWS services, and enabling seamless communication via GraphQL.
+                <ul>
+                    <li><strong>Tech utilised:</strong> AWS services, Figma, Flutter, GraphQL, Jira, ClickUp, Lucid Chart, VSCode, Github</li>
+                    <li>Nominated for Community Impact Award & Peoples' Choice Award.</li>
+                    <li>Received the <strong>People's Choice Award</strong> for Best Computer Science Capstone Project.</li>
+                </ul>
+            </p>
+        </div>
+
+        <div class="project">
+            <p class="project-heading">
+                <strong>Podcast Website (3-person project)</strong>
+            </p>
+            <p class="text">
+                Developed a full-stack podcast library where users can browse, search, interact with podcasts, and manage playlists.
+                <ul>
+                    <li>
+                        <strong>Tech utilised:</strong> Python, Flask, SQLAlchemy ORM, HTML/CSS, Jinja
+                    </li>
+                    <li>Followed TDD principles with comprehensive unit tests for domain models and service layers</li>
+                    <li>Integration and system testing</li>
+                    <li>Repository pattern implemented (memory + database layers for seamless data management)</li>
+                </ul>
+            </p>
+        </div>
+
+        <div class="project">
+            <p class="project-heading">
+                <strong>New Zealand Sign Language (NZSL) website</strong>
+            </p>
+            <p class="text">
+                A website where users can learn and practice NZSL through interactive features.
+                <ul>
+                    <li>
+                        <strong>Tech utilised:</strong> C#, .NET, JavaScript, HTML, CSS, SQLite
+                    </li>
+                </ul>
+            </p>
+        </div>
+
+        <div class="project">
+            <p class="project-heading">
+                <strong>A Paired Approach to Tackling Food Insecurity at UW</strong>
+            </p>
+            <p class="text">
+                A quarter-long UX/ UI  project is aimed at tackling food insecurity. The design process included paper prototypes, usability tests, and digital mockups, resulting in a smart vending machine and an app mockup.
+                <ul>
+                    <li>
+                        Received “Most Impactful For UW Students” Award
+                    </li>
+                </ul>
+            </p>
+        </div>
+        
       </section>
       <section>
         <div class="section-feedback">
@@ -87,7 +200,30 @@
           <button>Anonymous Feedback</button>
         </div>
         <hr />
-        <p class="text">blabla</p>
+        <ul>
+            <li>
+                Certificate of Distinction in:
+                <br/>
+                Concepts in Statistics
+                <img class="diamond" src="assets/images/diamond.ico">
+                Introduction to Statistics
+                <img class="diamond" src="assets/images/diamond.ico">
+                Data Analysis
+            </li>
+            <li>
+                Certificate of Outstanding Achievement in:
+                <br/>
+                Principles of Programming 
+                <img class="diamond" src="assets/images/diamond.ico">
+                Capstone: Computer Science
+                <img class="diamond" src="assets/images/diamond.ico">
+                Software Development Methodologies
+            </li>
+            <li>People’s Choice Award for Best Computer Science Capstone Project.</li>
+            <li>“Most Impactful For UW Students” Award</li>
+            <li>Excellence endorsement in NCEA lvl 1, 2 & 3</li>
+            <li>“The Most Improved in Design” Award</li>
+        </ul>
       </section>
       <section>
         <div class="section-feedback">
@@ -95,7 +231,37 @@
           <button>Anonymous Feedback</button>
         </div>
         <hr />
-        <p class="text">blabla</p>
+        <p><strong>Languages & Frameworks & Libraries:</strong></p>
+        <p>Python
+            <img class="diamond" src="assets/images/diamond.ico"> Flask
+            <img class="diamond" src="assets/images/diamond.ico"> Jinja
+            <img class="diamond" src="assets/images/diamond.ico"> Java
+            <img class="diamond" src="assets/images/diamond.ico"> C# in .NET Core
+            <img class="diamond" src="assets/images/diamond.ico"> HotChocolate
+            <img class="diamond" src="assets/images/diamond.ico"> React
+            <img class="diamond" src="assets/images/diamond.ico"> Flutter | Dart
+            <img class="diamond" src="assets/images/diamond.ico"> R
+            <img class="diamond" src="assets/images/diamond.ico"> SQL
+            <img class="diamond" src="assets/images/diamond.ico"> GraphQL
+            <img class="diamond" src="assets/images/diamond.ico"> HTML
+            <img class="diamond" src="assets/images/diamond.ico"> CSS
+            <img class="diamond" src="assets/images/diamond.ico"> Tailwind CSS
+            <img class="diamond" src="assets/images/diamond.ico"> JavaScript
+            <img class="diamond" src="assets/images/diamond.ico"> TypeScript
+        </p>
+
+        <p><strong>Technologies & Tools:</strong></p>
+        <p>
+            Figma
+            <img class="diamond" src="assets/images/diamond.ico"> AWS services: S3 | DynamoDB | Amplify | Cognito
+            <img class="diamond" src="assets/images/diamond.ico"> Docker
+            <img class="diamond" src="assets/images/diamond.ico"> Jira kanban (agile project management)
+            <img class="diamond" src="assets/images/diamond.ico"> LucidChart: UML | System Architecture & Algorithm flow diagrams
+            <img class="diamond" src="assets/images/diamond.ico"> Draw.io: Database design 
+            <img class="diamond" src="assets/images/diamond.ico"> Github
+            <img class="diamond" src="assets/images/diamond.ico"> Jenkins
+        </p>
+
       </section>
       <section>
         <div class="section-feedback">
@@ -103,7 +269,40 @@
           <button>Anonymous Feedback</button>
         </div>
         <hr />
-        <p class="text">blabla</p>
+        
+        <table class="certifications-table">
+            <tr>
+                <td><strong>MICROSOFT LEARN AI SKILLS CHALLENGE</strong></td>
+                <td class="date">Aug 2023</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="cerificate">Machine Learning Challenge</td>
+            </tr>
+
+            <tr>
+                <td><strong>GOOGLE IT AUTOMATION WITH PYTHON</strong></td>
+                <td class="date">Sept 2021</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="cerificate">Crash course on Python
+                    <img class="diamond" src="assets/images/diamond.ico"> Using Python to interact with the Operating System 
+                    <img class="diamond" src="assets/images/diamond.ico"> Introduction to Git and Github
+                    <img class="diamond" src="assets/images/diamond.ico"> Troubleshooting and debugging techniques 
+                    <img class="diamond" src="assets/images/diamond.ico"> Configuration Management and the Cloud
+                    <img class="diamond" src="assets/images/diamond.ico"> Automating Real-World tasks with Python
+                </td>
+            
+            </tr>
+            <tr>
+                <td>
+                    <strong>HTML, CSS & JavaScript</strong>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="cerificate">YouAccel Training (Udemy)</td>
+            </tr>
+        </table>
+
       </section>
       <section>
         <div class="section-feedback">
@@ -111,36 +310,85 @@
           <button>Anonymous Feedback</button>
         </div>
         <hr />
-        <p class="text">blabla</p>
+
+        <div id="timeline">
+        </div>
+        
       </section>
+
       <section>
         <div class="section-feedback">
           <p class="section-heading">VOLUNTEERING</p>
           <button>Anonymous Feedback</button>
         </div>
         <hr />
-        <p class="text">blabla</p>
+        <p>
+            Library Team Leader
+            <img class="diamond" src="assets/images/diamond.ico">  
+            Peer Support member <img class="diamond" src="assets/images/diamond.ico"> 
+            Peer Mediation member <img class="diamond" src="assets/images/diamond.ico"> 
+            Fundraising <img class="diamond" src="assets/images/diamond.ico"> 
+            Relay for life <img class="diamond" src="assets/images/diamond.ico"> 
+            Interact (Heart Foundation) <img class="diamond" src="assets/images/diamond.ico"> 
+            Tutoring for NCEA L2 Calculus <img class="diamond" src="assets/images/diamond.ico"> 
+            <br/>
+            Participating in multiple studies, including: 
+            <ul>
+              <li class="studies">“Can a telehealth intervention increase mindfulness and reduce stress?”</li>
+              <li>“Investigating the role of the menstrual cycle in epilepsy”</li>
+              <li>“Covid-19 booster study – how well the inactivated Valneva Covid-19 vaccine works.”</li>
+            </ul>
+        </p>
       </section>
-      <section>
-        <div class="section-feedback">
-          <p class="section-heading">LANGUAGES</p>
-          <button>Anonymous Feedback</button>
+
+      <section class="last">
+        <div class="spacing">
+
+          <div class="section-feedback">
+            <p class="section-heading">LANGUAGES</p>
+            <button>Anonymous Feedback</button>
+          </div>
+          <hr/>
+
+          <div class="language">
+            <div > 
+              <li>English</li>
+              <li>Bangla</li>
+              <li>Japanese</li>
+              <li>HIndi</li>
+            </div>
+
+            <div >
+              ⚫⚫⚫⚫⚫
+              <br/>
+              ⚫⚫⚫⚫⚪
+              <br/>
+              ⚫⚫⚪⚪⚪
+              <br/>
+              ⚫⚫⚪⚪⚪
+            </div>
+          </div>
         </div>
-        <hr />
-        <p class="text">blabla</p>
-      </section>
-      <section>
-        <div class="section-feedback">
-          <p class="section-heading">INTERESTS</p>
-          <button>Anonymous Feedback</button>
+      
+        <div class="spacing">
+          <div class="section-feedback">
+            <p class="section-heading">INTERESTS</p>
+            <button>Anonymous Feedback</button>
+          </div>
+          <hr/>
+          <ul>
+            <li>Digital/ traditional illustration </li>
+            <li>Ice Skating</li>
+            <li>Travelling</li>
+          </ul>
         </div>
-        <hr />
-        <p class="text">blabla</p>
+
       </section>
+      
     </article>
 
     <footer></footer>
 
-    <script src="scripts/main.js"></script>
+    <script src="scripts/main.js" type="module"></script>
   </body>
 </html>
