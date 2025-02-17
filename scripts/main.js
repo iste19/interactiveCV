@@ -8,32 +8,29 @@ toggle.addEventListener("change", () => {
     : document.body.classList.remove("dark-mode");
 });
 
-//console.log(timelineData);
-
 const timeline = document.getElementById("timeline");
 
 function loadTimeline() {
   timeline.innerHTML = "";
 
   timelineData.forEach((item, index) => {
-    let modalContent = "";
-
-    modalContent = `
-    <div id="modal-${index}" class="modal">
-      <div class="modal-content">
-        <span class="close" id="close-${index}">&times;</span>
-        <ul>
-        ${item.modalContent.jobDescription
-          .map((point) => `<li>${point}</li>`)
-          .join("")}
-        </ul>
+    const modalContent = `
+      <div id="modal-${index}" class="modal">
+        <div class="modal-content">
+          <span class="close" id="close-${index}">&times;</span>
+          <img src=${item.modalContent.images[0]} alt= "company logo">
+          <ul>
+            ${item.modalContent.jobDescription
+              .map((point) => `<li>${point}</li>`)
+              .join("")}
+          </ul>
+        </div>
       </div>
-    </div>
     `;
 
     const timelineItem = `
       <div class="timeline-item ${item.side}">
-        <div class="timeline-content" id="timeline-content-${index}">
+        <div class="timeline-content" data-index="${index}">
           <h3>${item.date}</h3>
           <div><span class="role">${item.role}</span> · ${item.type}</div>
           <p><em>${item.company}</em></p>
@@ -43,29 +40,24 @@ function loadTimeline() {
     `;
 
     timeline.innerHTML += timelineItem;
-
-    document
-      .getElementById(`timeline-content-${index}`)
-      .addEventListener("click", () => {
-        document.getElementById(`modal-${index}`).style.display = "block";
-      });
-
-    document.getElementById(`close-${index}`).addEventListener("click", () => {
-      document.getElementById(`modal-${index}`).style.display = "none";
-    });
   });
 }
 
 loadTimeline();
 
-for (let i = 0; i < timelineData.length; i++) {
-  document
-    .getElementById(`timeline-content-${i}`)
-    .addEventListener("click", () => {
-      document.getElementById(`modal-${i}`).style.display = "block";
-    });
+timeline.addEventListener("click", (event) => {
+  const target = event.target;
 
-  document.getElementById(`close-${i}`).addEventListener("click", () => {
-    document.getElementById(`modal-${i}`).style.display = "none";
-  });
-}
+  if (target.closest(".timeline-content")) {
+    const index = target.closest(".timeline-content").dataset.index;
+    const modal = document.getElementById(`modal-${index}`);
+    if (modal) {
+      modal.style.display = "block";
+    }
+  }
+
+  if (target.classList.contains("close")) {
+    const modal = target.closest(".modal");
+    modal.style.display = "none";
+  }
+});
