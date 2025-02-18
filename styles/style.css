@@ -10,6 +10,10 @@ body.dark-mode{
     color: white;    
 }
 
+body.feedback-mode{
+    cursor: url("../assets/images/pincursor.png"), default;
+}
+
 hr{
     border: 0.1em solid #95b2cf;
     margin-top: -1.5em;
@@ -25,6 +29,43 @@ button{
 
 section{
     margin-top: -1.5em;
+}
+
+.feedback-container{
+    position: absolute;
+    z-index: 1;
+    padding: 0.5em;
+    cursor: pointer;
+}
+
+.pin{
+    width: 24px;
+    height: 24px;
+    background-image: url("../assets/images/pin2.png");
+    cursor: pointer;
+}
+
+.comment-modal {
+    top: 30px; 
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 101;
+    display: none; 
+}
+
+.comment-modal form {
+    display: flex;
+    flex-direction: column;
+}
+  
+.comment-modal textarea {
+    margin-bottom: 10px;
+}
+  
+.comment-modal button {
+    align-self: flex-end;
 }
 
 .education-table{
@@ -67,11 +108,6 @@ section{
     font-size: 2em;
     letter-spacing: 0.2em;
     color: #95b2cf;
-}
-.section-feedback{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 #contacts-container {
@@ -133,22 +169,26 @@ section{
     padding-right: 2em;
 }
 
-.darkmodetog{
+.toggles-container{
     display: flex;
     justify-content: flex-end;
+}
+
+.toggles{
+    display: flex;
     margin-right: 2em;
     vertical-align: middle;
 }
 
-.darkmodetog div{
+.toggle-message{
     padding-right: 0.5em;
     margin-top: 0.2em;
 }
 
+
 .switch {
     position: relative;
     display: inline-block;
-    
     width: 60px;
     height: 34px;
     
@@ -290,6 +330,7 @@ input:checked + .slider:before {
     border-radius: 15px; 
     padding: 7px;
 }
+
 
 
 

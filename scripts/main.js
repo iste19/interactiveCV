@@ -1,11 +1,73 @@
 import timelineData from "./experienceTimelineData.js";
 
+let comments = [];
+
 const toggle = document.getElementById("darkModeToggle");
 
 toggle.addEventListener("change", () => {
   toggle.checked
     ? document.body.classList.add("dark-mode")
     : document.body.classList.remove("dark-mode");
+});
+
+const feedbackToggle = document.getElementById("feedbackModeToggle");
+feedbackToggle.addEventListener("change", () => {
+  feedbackToggle.checked
+    ? document.body.classList.add("feedback-mode")
+    : document.body.classList.remove("feedback-mode");
+});
+
+document.body.addEventListener("click", (event) => {
+  if (feedbackToggle.checked) {
+    const target = event.target;
+
+    const pin = document.createElement("div");
+    pin.classList.add("pin");
+
+    const feedbackContainer = document.createElement("div");
+    feedbackContainer.classList.add("feedback-container");
+    feedbackContainer.style.position = "absolute";
+    feedbackContainer.style.left = event.clientX + "px";
+    feedbackContainer.style.top = event.clientY + "px";
+
+    const commentModal = document.createElement("div");
+    commentModal.classList.add("comment-modal");
+    commentModal.style.left = "0px";
+    commentModal.style.top = "25px";
+
+    commentModal.innerHTML = `
+      <form>
+        <textarea name="comment" placeholder="Leave your comment" rows="8" cols="30"></textarea>
+        <button type="submit">Submit</button>
+      </form>
+    `;
+
+    commentModal.style.display = "none";
+
+    feedbackContainer.appendChild(pin);
+    feedbackContainer.appendChild(commentModal);
+    target.appendChild(feedbackContainer);
+
+    feedbackContainer.addEventListener("mouseenter", () => {
+      commentModal.style.display = "block";
+    });
+
+    feedbackContainer.addEventListener("mouseleave", () => {
+      commentModal.style.display = "none";
+    });
+
+    commentModal.querySelector("form").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const comment = e.target.comment.value;
+
+      console.log("Comment submitted:", comment);
+      comments.push(comment);
+      console.log(comments);
+
+      commentModal.style.display = "none";
+    });
+  }
 });
 
 const timeline = document.getElementById("timeline");
