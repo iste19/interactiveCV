@@ -10,7 +10,20 @@ body.dark-mode{
     color: white;    
 }
 
-body.feedback-mode{
+body.feedback-mode section{
+    cursor: url("../assets/images/pincursor.png"), default;
+}
+
+body.feedback-mode #contacts-container{
+    cursor: url("../assets/images/pincursor.png"), default;
+}
+
+
+body.feedback-mode .header-container{
+    cursor: url("../assets/images/pincursor.png"), default;
+}
+
+body.feedback-mode .toggle-message{
     cursor: url("../assets/images/pincursor.png"), default;
 }
 
@@ -33,7 +46,7 @@ section{
 
 .feedback-container{
     position: absolute;
-    z-index: 1;
+    z-index: 10;
     padding: 0.5em;
     cursor: pointer;
 }
@@ -51,7 +64,7 @@ section{
     background-color: white;
     border: 1px solid #ccc;
     padding: 10px;
-    z-index: 101;
+    z-index: 10;
     display: none; 
 }
 
@@ -369,8 +382,9 @@ input:checked + .slider:before {
   .close {
     color: #aaa;
     float: right;
-    font-size: 28px;
+    font-size: 50px;
     font-weight: bold;
+    margin-top: -0.3em;
   }
   
   .close:hover,
