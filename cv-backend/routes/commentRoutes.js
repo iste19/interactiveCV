@@ -1,24 +1,21 @@
 const express = require("express");
 const router = express.Router();
+const {
+  getComments,
+  createComment,
+  getComment,
+  updateComment,
+  deleteComment,
+} = require("../controllers/commentController");
 
-router.route("/").get((req, res) => {
-  res.status(200).json({ message: "Get all comments" });
-});
+router.route("/").get(getComments);
 
-router.route("/").post((req, res) => {
-  res.status(200).json({ message: "Create comment" });
-});
+router.route("/").post(createComment);
 
-router.route("/:id").get((req, res) => {
-  res.status(200).json({ message: `Get comment for ${req.params.id}` });
-});
+router.route("/:id").get(getComment);
 
-router.route("/:id").put((req, res) => {
-  res.status(200).json({ message: `Update comment for ${req.params.id}` });
-});
+router.route("/:id").put(updateComment);
 
-router.route("/:id").delete((req, res) => {
-  res.status(200).json({ message: `Delete comment for ${req.params.id}` });
-});
+router.route("/:id").delete(deleteComment);
 
 module.exports = router;
