@@ -37,7 +37,7 @@ document.body.addEventListener("click", (event) => {
     target.closest(".close") ||
     (!target.closest("section") &&
       !target.closest(".header-container") &&
-      !target.closest(".toggle-message")) 
+      !target.closest(".toggle-message"))
   ) {
     return;
   } else {
@@ -113,6 +113,10 @@ document.body.addEventListener("click", (event) => {
 
     commentModal.style.display = "none";
   });
+});
+
+document.getElementById("signup").addEventListener("click", () => {
+  document.getElementById("signupContainer").style.display = "flex";
 });
 
 const timeline = document.getElementById("timeline");
