@@ -2,9 +2,16 @@ const express = require("express");
 const errorHandler = require("./middleware/errorHandler");
 const connectDb = require("./config/dbConnection");
 const dotenv = require("dotenv").config();
+const path = require("path");
 
 connectDb();
 const app = express();
+
+app.use(express.static("../public"));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public", "index.html"));
+});
 
 const port = process.env.PORT || 5000;
 
