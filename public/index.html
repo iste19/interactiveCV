@@ -21,6 +21,7 @@
         <button id="signup" class="auth-button">Sign up</button>
         <button id = "login" class="auth-button">Login</button>
         
+        
       </div>
 
       
@@ -30,6 +31,9 @@
     <div id="signupContent"> 
 
       <form id="signupForm">
+        <span class="closeLog">&times;</span>
+        <br/>
+        <br/>
 
         <label for="uname"><b>Username</b></label>
         <input type="text" placeholder="Enter Username" name="uname" required>
@@ -40,7 +44,32 @@
         <label for="psw"><b>Password</b></label>
         <input type="password" placeholder="Enter Password" name="psw" required>
 
+        <p id="errorSignup" class="error"></p>
+
         <button type="submit">Sign up</button>
+
+      </form>
+      
+    </div>
+  </div>
+
+  <div id="loginContainer">
+    <div id="loginContent"> 
+      
+      <form id="loginForm">
+        <span class="closeLog">&times;</span>
+        <br/>
+        <br/>
+
+        <label for="eml"><b>Email</b></label>
+        <input type="text" placeholder="Enter Email" name="eml" required>
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="psw" required>
+
+        <p id="errorLogin" class="error"></p>
+
+        <button type="submit">Log in</button>
 
       </form>
       
@@ -72,7 +101,7 @@
     <div class="toggles-container">
 
       <div class="toggles"> 
-        <div class="toggle-message">Anonymous Feedback Mode</div>
+        <div class="toggle-message">Feedback Mode</div>
         <label class="switch">
           <input type="checkbox" id="feedbackModeToggle">
           <span class="slider round"></span>

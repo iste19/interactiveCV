@@ -119,6 +119,85 @@ document.getElementById("signup").addEventListener("click", () => {
   document.getElementById("signupContainer").style.display = "flex";
 });
 
+document.getElementById("login").addEventListener("click", () => {
+  document.getElementById("loginContainer").style.display = "flex";
+});
+
+document.getElementsByClassName("closeLog")[0].addEventListener("click", () => {
+  document.getElementById("signupContainer").style.display = "none";
+});
+
+document.getElementsByClassName("closeLog")[1].addEventListener("click", () => {
+  document.getElementById("loginContainer").style.display = "none";
+});
+
+const signupForm = document.getElementById("signupForm");
+signupForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const url = "http://localhost:5001/api/users/register";
+
+  const error = document.getElementById("errorSignup");
+  error.innerHTML = "";
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        username: signupForm.uname.value,
+        email: signupForm.eml.value,
+        password: signupForm.psw.value,
+      }),
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+      error.innerHTML += `Error: ${data.message}`;
+    } else {
+      console.log("User registered:", data);
+      document.getElementById("signupContainer").style.display = "none";
+    }
+  } catch (err) {
+    error.innerHTML += `Error: ${err.message}`;
+  }
+});
+
+const loginForm = document.getElementById("loginForm");
+loginForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const url = "http://localhost:5001/api/users/login";
+
+  const error = document.getElementById("errorLogin");
+  error.innerHTML = "";
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        email: loginForm.eml.value,
+        password: loginForm.psw.value,
+      }),
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+      error.innerHTML += `Error: ${data.message}`;
+    } else {
+      console.log("User Logged in:", data);
+      document.getElementById("loginContainer").style.display = "none";
+    }
+  } catch (err) {
+    error.innerHTML += `Error: ${err.message}`;
+  }
+});
+
 const timeline = document.getElementById("timeline");
 
 function loadTimeline() {
