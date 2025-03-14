@@ -92,26 +92,48 @@ document.body.addEventListener("click", (event) => {
     commentModal.style.display = "none";
   });
 
-  commentModal.querySelector("form").addEventListener("submit", (e) => {
+  const commentsUrl = "http://localhost:5001/api/comments/";
+
+  commentModal.querySelector("form").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const comment = e.target.comment.value;
 
-    console.log("Comment submitted:", comment);
+    //const error = document.getElementById("errorSignup");
+    //error.innerHTML = "";
 
-    const comment_info = {
-      comment: comment,
-      sectionHeading: sectionHeading,
-      position: {
-        left: feedbackContainer.style.left,
-        top: feedbackContainer.style.top,
-      },
-      extraInfo: extraInfo,
-    };
-    comments.push(comment_info);
-    console.log(comments);
+    const token = localStorage.getItem("access-token");
 
-    commentModal.style.display = "none";
+    try {
+      const response = await fetch(commentsUrl, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          comment: comment,
+          sectionHeading: sectionHeading,
+          position: {
+            left: feedbackContainer.style.left,
+            top: feedbackContainer.style.top,
+          },
+          extraInfo: extraInfo,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        //error.innerHTML += `Error: ${data.message}`;
+      } else {
+        console.log("Comment submitted", data);
+        commentModal.style.display = "none";
+      }
+    } catch (err) {
+      console.log(err);
+      //error.innerHTML += `Error: ${err.message}`;
+    }
   });
 });
 
@@ -202,9 +224,8 @@ loginForm.addEventListener("submit", async (e) => {
     if (!response.ok) {
       error.innerHTML += `Error: ${data.message}`;
     } else {
-      console.log("User Logged in:", data.accessToken);
       greeting.innerHTML = await userGreeting(data.accessToken);
-      localStorage.setItem("access-token", data);
+      localStorage.setItem("access-token", data.accessToken);
       document.getElementById("loginContainer").style.display = "none";
       document.getElementById("signup").style.display = "none";
       document.getElementById("login").style.display = "none";
