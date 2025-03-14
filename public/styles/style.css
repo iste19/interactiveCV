@@ -266,6 +266,20 @@ button[type="submit"]:hover {
     cursor: pointer;
 }
 
+#logout{
+    display: none;
+}
+
+
+
+#greeting {
+    position: absolute; 
+    left: 1em; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    font-size: 0.5em; 
+}
+
 .text{
     font-family: "Poppins", serif;
     font-size: 1em;

@@ -115,6 +115,8 @@ document.body.addEventListener("click", (event) => {
   });
 });
 
+// --------------------- login/ sign up --------------------- //
+
 document.getElementById("signup").addEventListener("click", () => {
   document.getElementById("signupContainer").style.display = "flex";
 });
@@ -129,6 +131,16 @@ document.getElementsByClassName("closeLog")[0].addEventListener("click", () => {
 
 document.getElementsByClassName("closeLog")[1].addEventListener("click", () => {
   document.getElementById("loginContainer").style.display = "none";
+});
+
+const greeting = document.getElementById("greeting");
+
+document.getElementById("logout").addEventListener("click", () => {
+  localStorage.removeItem("access-token");
+  document.getElementById("signup").style.display = "inline";
+  document.getElementById("login").style.display = "inline";
+  document.getElementById("logout").style.display = "none";
+  greeting.innerHTML = "";
 });
 
 const signupForm = document.getElementById("signupForm");
@@ -190,13 +202,41 @@ loginForm.addEventListener("submit", async (e) => {
     if (!response.ok) {
       error.innerHTML += `Error: ${data.message}`;
     } else {
-      console.log("User Logged in:", data);
+      console.log("User Logged in:", data.accessToken);
+      greeting.innerHTML = await userGreeting(data.accessToken);
+      localStorage.setItem("access-token", data);
       document.getElementById("loginContainer").style.display = "none";
+      document.getElementById("signup").style.display = "none";
+      document.getElementById("login").style.display = "none";
+      document.getElementById("logout").style.display = "block";
     }
   } catch (err) {
     error.innerHTML += `Error: ${err.message}`;
   }
 });
+
+async function userGreeting(token) {
+  const url = "http://localhost:5001/api/users/current";
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      console.log(`Error: ${data.message}`);
+    } else {
+      return `Welcome, <b>${data.username}</b>`;
+    }
+  } catch (error) {
+    console.log(`Error: ${err.message}`);
+  }
+}
+
+// --------------------- timeline --------------------- //
 
 const timeline = document.getElementById("timeline");
 
