@@ -74,6 +74,17 @@ const loginUser = asyncHandler(async (req, res) => {
       { expiresIn: "15m" }
     );
 
+    const refreshToken = jwt.sign(
+      { user: { username: user.username, email: user.email, id: user.id } },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      sameSite: "Strict",
+    });
+
     res.status(200).json({ accessToken });
   } else {
     res.status(401);
@@ -88,4 +99,31 @@ const currentUser = asyncHandler(async (req, res) => {
   res.json(req.user);
 });
 
-module.exports = { registerUser, loginUser, currentUser };
+//@desc Refresh token
+//@route POST /api/users/refresh-token
+//@access private
+const refreshToken = asyncHandler(async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+
+  if (!refreshToken) {
+    res.status(401);
+    throw new Error("No refresh token provided");
+  }
+
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      res.status(403);
+      throw new Error("Invalid or expired refresh token");
+    }
+
+    const accessToken = jwt.sign(
+      { user: decoded.user },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "15m" }
+    );
+
+    res.status(200).json({ accessToken });
+  });
+});
+
+module.exports = { registerUser, loginUser, currentUser, refreshToken };

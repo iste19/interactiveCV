@@ -70,9 +70,13 @@ document.body.addEventListener("click", (event) => {
   commentModal.style.left = "0px";
   commentModal.style.top = "25px";
 
+  const errorElement = document.createElement("p");
+  errorElement.id = "commentError";
+
   commentModal.innerHTML = `
         <form>
             <textarea name="comment" placeholder="Leave your comment" rows="8" cols="30"></textarea>
+            <div id="commentError"> </div>
             <button type="submit">Submit</button>
         </form>
     `;
@@ -99,12 +103,16 @@ document.body.addEventListener("click", (event) => {
 
     const comment = e.target.comment.value;
 
-    //const error = document.getElementById("errorSignup");
-    //error.innerHTML = "";
-
-    const token = localStorage.getItem("access-token");
+    const error = commentModal.querySelector("#commentError");
+    error.innerHTML = "";
 
     try {
+      const token = localStorage.getItem("access-token");
+
+      if (!token) {
+        token = await refreshAccessToken();
+      }
+
       const response = await fetch(commentsUrl, {
         method: "POST",
         headers: {
@@ -122,17 +130,38 @@ document.body.addEventListener("click", (event) => {
         }),
       });
 
+      //retry with refreshtoken incase accesstoken expired.
+
+      if (response.status === 401) {
+        token = await refreshAccessToken();
+
+        response = await fetch(commentsUrl, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            comment: comment,
+            sectionHeading: sectionHeading,
+            position: {
+              left: feedbackContainer.style.left,
+              top: feedbackContainer.style.top,
+            },
+            extraInfo: extraInfo,
+          }),
+        });
+      }
+
       const data = await response.json();
 
       if (!response.ok) {
-        //error.innerHTML += `Error: ${data.message}`;
+        error.innerHTML = `*Error: ${data.message}`;
       } else {
-        console.log("Comment submitted", data);
         commentModal.style.display = "none";
       }
     } catch (err) {
-      console.log(err);
-      //error.innerHTML += `Error: ${err.message}`;
+      error.innerHTML = `*Error: ${err.message}`;
     }
   });
 });
@@ -254,6 +283,29 @@ async function userGreeting(token) {
     }
   } catch (error) {
     console.log(`Error: ${err.message}`);
+  }
+}
+
+async function refreshAccessToken() {
+  try {
+    const response = await fetch("http://localhost:5001/api/users/refresh", {
+      method: "POST",
+      credentials: "same-origin", // Ensures cookies are sent with the request
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      localStorage.setItem("access-token", data.accessToken);
+      return data.accessToken;
+    } else {
+      console.log("Refresh token expired or invalid.");
+      localStorage.removeItem("access-token");
+      window.location.reload(); // Redirect to login or show login form
+    }
+  } catch (err) {
+    console.error("Failed to refresh access token:", err);
+    localStorage.removeItem("access-token");
+    window.location.reload();
   }
 }
 

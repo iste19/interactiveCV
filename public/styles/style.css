@@ -253,6 +253,12 @@ button[type="submit"]:hover {
     margin-top: -0.5em;
 }
 
+#commentError{
+    color: red;
+    font-size: 0.8em;
+    margin-top: -0.5em;
+}
+
 .closeLog{
     color: #aaa;
     float: right;
