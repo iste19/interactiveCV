@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Iste's Interactive CV</title>
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
     <link href="styles/style.css" rel="stylesheet" />
     <link
       href="https://fonts.googleapis.com/css2?family=Alatsi&family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
@@ -13,9 +13,68 @@
   </head>
   <body>
     <header class="header-container">
-        <img src="assets/favicon.ico" alt="iste logo">
-        ISTEFAT SAWDA
-    </header>
+      <div id="greeting"></div>
+      <div class="logo-title">
+          <img src="assets/favicon.ico" alt="iste logo">
+          ISTEFAT SAWDA
+      </div>
+      <div class="auth-buttons">
+        <button id="signup" class="auth-button">Sign up</button>
+        <button id = "login" class="auth-button">Login</button>
+        <button id = "logout" class="auth-button">Logout</button>
+      </div>
+  </header>
+
+  <div id="greeting"></div>
+
+  <div id="signupContainer">
+    <div id="signupContent"> 
+
+      <form id="signupForm">
+        <span class="closeLog">&times;</span>
+        <br/>
+        <br/>
+
+        <label for="uname"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="uname" required>
+
+        <label for="eml"><b>Email</b></label>
+        <input type="text" placeholder="Enter Email" name="eml" required>
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="psw" required>
+
+        <p id="errorSignup" class="error"></p>
+
+        <button type="submit">Sign up</button>
+
+      </form>
+      
+    </div>
+  </div>
+
+  <div id="loginContainer">
+    <div id="loginContent"> 
+      
+      <form id="loginForm">
+        <span class="closeLog">&times;</span>
+        <br/>
+        <br/>
+
+        <label for="eml"><b>Email</b></label>
+        <input type="text" placeholder="Enter Email" name="eml" required>
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="psw" required>
+
+        <p id="errorLogin" class="error"></p>
+
+        <button type="submit">Log in</button>
+
+      </form>
+      
+    </div>
+  </div>
 
     
     <div id="contacts-container">
@@ -42,7 +101,7 @@
     <div class="toggles-container">
 
       <div class="toggles"> 
-        <div class="toggle-message">Anonymous Feedback Mode</div>
+        <div class="toggle-message">Feedback Mode</div>
         <label class="switch">
           <input type="checkbox" id="feedbackModeToggle">
           <span class="slider round"></span>
