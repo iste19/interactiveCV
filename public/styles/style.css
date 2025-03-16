@@ -247,6 +247,10 @@ button[type="submit"]:hover {
     
 }
 
+#editCommentbtn{
+    display: none;
+}
+
 .error{
     color: red;
     font-size: 0.7em;

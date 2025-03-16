@@ -35,6 +35,7 @@ document.body.addEventListener("click", (event) => {
     target.closest(".toggles switch") ||
     target.closest(".timeline-content:hover") ||
     target.closest(".close") ||
+    target.closest(".auth-buttons") ||
     (!target.closest("section") &&
       !target.closest(".header-container") &&
       !target.closest(".toggle-message"))
@@ -73,11 +74,14 @@ document.body.addEventListener("click", (event) => {
   const errorElement = document.createElement("p");
   errorElement.id = "commentError";
 
+  let editMode = false;
+
   commentModal.innerHTML = `
         <form>
             <textarea name="comment" placeholder="Leave your comment" rows="8" cols="30"></textarea>
             <div id="commentError"> </div>
-            <button type="submit">Submit</button>
+            <button id="submitCommentbtn" type="submit">Submit</button>
+            <button id="editCommentbtn" type="submit">Edit</button>
         </form>
     `;
 
@@ -100,6 +104,10 @@ document.body.addEventListener("click", (event) => {
 
   commentModal.querySelector("form").addEventListener("submit", async (e) => {
     e.preventDefault();
+
+    if (editMode) {
+      return;
+    }
 
     const comment = e.target.comment.value;
 
@@ -158,12 +166,29 @@ document.body.addEventListener("click", (event) => {
       if (!response.ok) {
         error.innerHTML = `*Error: ${data.message}`;
       } else {
-        commentModal.style.display = "none";
+        editMode = true;
+        e.target.querySelector("#submitCommentbtn").style.display = "none";
+        e.target.querySelector("#editCommentbtn").style.display = "block";
+        e.target.comment.disabled = true;
       }
     } catch (err) {
       error.innerHTML = `*Error: ${err.message}`;
     }
   });
+
+  commentModal
+    .querySelector("#editCommentbtn")
+    .addEventListener("click", (e) => {
+      e.preventDefault();
+
+      editMode = false;
+      const commentField = commentModal.querySelector("textarea");
+      commentField.disabled = false;
+      commentField.focus();
+
+      e.target.style.display = "none";
+      commentModal.querySelector("#submitCommentbtn").style.display = "block";
+    });
 });
 
 // --------------------- login/ sign up --------------------- //
