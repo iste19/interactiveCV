@@ -17,7 +17,7 @@ const commentSchema = mongoose.Schema(
       left: {
         type: String,
       },
-      right: {
+      top: {
         type: String,
       },
     },

@@ -1,7 +1,5 @@
 import timelineData from "./experienceTimelineData.js";
 
-let comments = [];
-
 const toggle = document.getElementById("darkModeToggle");
 
 toggle.addEventListener("change", () => {
@@ -11,11 +9,104 @@ toggle.addEventListener("change", () => {
 });
 
 const feedbackToggle = document.getElementById("feedbackModeToggle");
-feedbackToggle.addEventListener("change", () => {
+
+feedbackToggle.addEventListener("change", async () => {
+  if (!(await isAuthorised())) {
+    // Use 'await' to wait for the async function to complete
+    alert("You need to be logged in to provide feedback.");
+    feedbackToggle.checked = false;
+    return;
+  }
+
+  viewPrevComments();
   feedbackToggle.checked
     ? document.body.classList.add("feedback-mode")
     : document.body.classList.remove("feedback-mode");
 });
+
+const commentsUrl = "http://localhost:5001/api/comments/";
+
+async function viewPrevComments() {
+  try {
+    let token =
+      localStorage.getItem("access-token") || (await refreshAccessToken());
+
+    let response = await fetch(commentsUrl, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status === 401) {
+      token = await refreshAccessToken();
+
+      response = await fetch(commentsUrl, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.log(`*Error: ${data.message}`);
+    } else {
+      data.forEach((oldComment) => {
+        const pin = document.createElement("div");
+        pin.classList.add("pin");
+
+        const feedbackContainer = document.createElement("div");
+        feedbackContainer.classList.add("feedback-container");
+        feedbackContainer.style.position = "absolute";
+
+        feedbackContainer.style.left = oldComment.position.left;
+        feedbackContainer.style.top = oldComment.position.top;
+
+        const commentModal = document.createElement("div");
+        commentModal.classList.add("comment-modal");
+        commentModal.style.left = "0px";
+        commentModal.style.top = "25px";
+
+        commentModal.innerHTML = `
+          <p>Last modified:
+        ${
+          oldComment.updatedAt
+            ? new Date(oldComment.updatedAt).toLocaleString("en-NZ", {
+                timeZone: "Pacific/Auckland",
+              })
+            : "Date not available"
+        }
+      </p>
+      <p>Section: ${oldComment.sectionHeading}</p>
+      <p>Comment: ${oldComment.comment}</p>
+      <p>Extra Info: ${oldComment.extraInfo}</p>
+    `;
+
+        commentModal.style.display = "none";
+
+        feedbackContainer.appendChild(pin);
+        feedbackContainer.appendChild(commentModal);
+
+        document.body.appendChild(feedbackContainer);
+
+        feedbackContainer.addEventListener("mouseenter", () => {
+          commentModal.style.display = "block";
+        });
+
+        feedbackContainer.addEventListener("mouseleave", () => {
+          commentModal.style.display = "none";
+        });
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 document.body.addEventListener("click", (event) => {
   if (!feedbackToggle.checked) {
@@ -35,6 +126,7 @@ document.body.addEventListener("click", (event) => {
     target.closest(".toggles switch") ||
     target.closest(".timeline-content:hover") ||
     target.closest(".close") ||
+    target.closest(".auth-buttons") ||
     (!target.closest("section") &&
       !target.closest(".header-container") &&
       !target.closest(".toggle-message"))
@@ -70,10 +162,15 @@ document.body.addEventListener("click", (event) => {
   commentModal.style.left = "0px";
   commentModal.style.top = "25px";
 
+  const errorElement = document.createElement("p");
+  errorElement.id = "commentError";
+
   commentModal.innerHTML = `
         <form>
             <textarea name="comment" placeholder="Leave your comment" rows="8" cols="30"></textarea>
-            <button type="submit">Submit</button>
+            <div id="commentError"> </div>
+            <button id="submitCommentbtn" type="submit">Submit</button>
+            <button id="editCommentbtn" type="submit">Edit</button>
         </form>
     `;
 
@@ -92,27 +189,102 @@ document.body.addEventListener("click", (event) => {
     commentModal.style.display = "none";
   });
 
-  commentModal.querySelector("form").addEventListener("submit", (e) => {
+  let currentCommentId = null;
+
+  commentModal.querySelector("form").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const comment = e.target.comment.value;
+    const error = commentModal.querySelector("#commentError");
+    error.innerHTML = "";
 
-    console.log("Comment submitted:", comment);
+    try {
+      let token =
+        localStorage.getItem("access-token") || (await refreshAccessToken());
 
-    const comment_info = {
-      comment: comment,
-      sectionHeading: sectionHeading,
-      position: {
-        left: feedbackContainer.style.left,
-        top: feedbackContainer.style.top,
-      },
-      extraInfo: extraInfo,
-    };
-    comments.push(comment_info);
-    console.log(comments);
+      let requestUrl = commentsUrl;
 
-    commentModal.style.display = "none";
+      if (currentCommentId) {
+        requestUrl += currentCommentId;
+      }
+
+      const method = currentCommentId ? "PUT" : "POST";
+
+      let response = await fetch(requestUrl, {
+        method: method,
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          comment: comment,
+          sectionHeading: sectionHeading,
+          position: {
+            left: feedbackContainer.style.left,
+            top: feedbackContainer.style.top,
+          },
+          extraInfo: extraInfo,
+        }),
+      });
+
+      if (response.status === 401) {
+        token = await refreshAccessToken();
+
+        response = await fetch(requestUrl, {
+          method: method, // retry with PUT/POST
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            comment: comment,
+            sectionHeading: sectionHeading,
+            position: {
+              left: feedbackContainer.style.left,
+              top: feedbackContainer.style.top,
+            },
+            extraInfo: extraInfo,
+          }),
+        });
+      }
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        error.innerHTML = `*Error: ${data.message}`;
+      } else {
+        e.target.querySelector("#submitCommentbtn").style.display = "none";
+        e.target.querySelector("#editCommentbtn").style.display = "block";
+        e.target.comment.disabled = true;
+
+        if (!currentCommentId) {
+          currentCommentId = data._id;
+        } else {
+          const commentElement = document.querySelector(
+            `[data-comment-id="${currentCommentId}"]`
+          );
+          if (commentElement) {
+            commentElement.querySelector("p").textContent = comment;
+          }
+        }
+      }
+    } catch (err) {
+      error.innerHTML = `*Error: ${err.message}`;
+    }
   });
+
+  commentModal
+    .querySelector("#editCommentbtn")
+    .addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const commentField = commentModal.querySelector("textarea");
+      commentField.disabled = false;
+      commentField.focus();
+
+      e.target.style.display = "none";
+      commentModal.querySelector("#submitCommentbtn").style.display = "block";
+    });
 });
 
 // --------------------- login/ sign up --------------------- //
@@ -202,9 +374,8 @@ loginForm.addEventListener("submit", async (e) => {
     if (!response.ok) {
       error.innerHTML += `Error: ${data.message}`;
     } else {
-      console.log("User Logged in:", data.accessToken);
       greeting.innerHTML = await userGreeting(data.accessToken);
-      localStorage.setItem("access-token", data);
+      localStorage.setItem("access-token", data.accessToken);
       document.getElementById("loginContainer").style.display = "none";
       document.getElementById("signup").style.display = "none";
       document.getElementById("login").style.display = "none";
@@ -233,6 +404,45 @@ async function userGreeting(token) {
     }
   } catch (error) {
     console.log(`Error: ${err.message}`);
+  }
+}
+
+async function refreshAccessToken() {
+  try {
+    const response = await fetch("http://localhost:5001/api/users/refresh", {
+      method: "POST",
+      credentials: "same-origin", // Ensures cookies are sent with the request
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      localStorage.setItem("access-token", data.accessToken);
+      return data.accessToken;
+    } else {
+      console.log("Refresh token expired or invalid.");
+      localStorage.removeItem("access-token");
+      window.location.reload(); // Redirect to login or show login form
+    }
+  } catch (err) {
+    console.error("Failed to refresh access token:", err);
+    localStorage.removeItem("access-token");
+    window.location.reload();
+  }
+}
+
+async function isAuthorised() {
+  try {
+    let token =
+      localStorage.getItem("access-token") || (await refreshAccessToken());
+    if (!token) {
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("Error during authorization check:", err);
+    localStorage.removeItem("access-token");
+    window.location.reload();
+    return false;
   }
 }
 
