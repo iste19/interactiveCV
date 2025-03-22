@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 //@route POST /api/users/register
 //@access public
 const registerUser = asyncHandler(async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, role } = req.body;
   if (!username || !email || !password) {
     res.status(400);
     throw new Error("All fields are mandatory!");
@@ -40,6 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
     username,
     email,
     password: hashedPassword,
+    role: role || "reviewer",
   });
   console.log(user);
   if (user) {
@@ -68,6 +69,7 @@ const loginUser = asyncHandler(async (req, res) => {
           username: user.username,
           email: user.email,
           id: user.id,
+          role: user.role,
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
@@ -75,7 +77,14 @@ const loginUser = asyncHandler(async (req, res) => {
     );
 
     const refreshToken = jwt.sign(
-      { user: { username: user.username, email: user.email, id: user.id } },
+      {
+        user: {
+          username: user.username,
+          email: user.email,
+          id: user.id,
+          role: user.role,
+        },
+      },
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: "7d" }
     );

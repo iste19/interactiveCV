@@ -84,10 +84,19 @@ const deleteComment = asyncHandler(async (req, res) => {
   res.status(200).json(comment);
 });
 
+//@desc Delete all comments (only admins can)
+//@route DELETE /api/comments/all
+//@access private
+const deleteAllComments = asyncHandler(async (req, res) => {
+  const result = await Comment.deleteMany({});
+  res.json({ message: `Deleted ${result.deletedCount} comments` });
+});
+
 module.exports = {
   getComments,
   createComment,
   updateComment,
   getComment,
   deleteComment,
+  deleteAllComments,
 };
