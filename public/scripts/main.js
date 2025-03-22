@@ -1,7 +1,5 @@
 import timelineData from "./experienceTimelineData.js";
 
-let comments = [];
-
 const toggle = document.getElementById("darkModeToggle");
 
 toggle.addEventListener("change", () => {
@@ -11,7 +9,14 @@ toggle.addEventListener("change", () => {
 });
 
 const feedbackToggle = document.getElementById("feedbackModeToggle");
-feedbackToggle.addEventListener("change", () => {
+
+feedbackToggle.addEventListener("change", async () => {
+  if (!(await isAuthorised())) {
+    // Use 'await' to wait for the async function to complete
+    alert("You need to be logged in to provide feedback.");
+    feedbackToggle.checked = false;
+    return;
+  }
   feedbackToggle.checked
     ? document.body.classList.add("feedback-mode")
     : document.body.classList.remove("feedback-mode");
@@ -74,8 +79,6 @@ document.body.addEventListener("click", (event) => {
   const errorElement = document.createElement("p");
   errorElement.id = "commentError";
 
-  let editMode = false;
-
   commentModal.innerHTML = `
         <form>
             <textarea name="comment" placeholder="Leave your comment" rows="8" cols="30"></textarea>
@@ -102,27 +105,29 @@ document.body.addEventListener("click", (event) => {
 
   const commentsUrl = "http://localhost:5001/api/comments/";
 
+  let currentCommentId = null;
+
   commentModal.querySelector("form").addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    if (editMode) {
-      return;
-    }
-
     const comment = e.target.comment.value;
-
     const error = commentModal.querySelector("#commentError");
     error.innerHTML = "";
 
     try {
-      const token = localStorage.getItem("access-token");
+      let token =
+        localStorage.getItem("access-token") || (await refreshAccessToken());
 
-      if (!token) {
-        token = await refreshAccessToken();
+      let requestUrl = commentsUrl;
+
+      if (currentCommentId) {
+        requestUrl += currentCommentId;
       }
 
-      const response = await fetch(commentsUrl, {
-        method: "POST",
+      const method = currentCommentId ? "PUT" : "POST";
+
+      let response = await fetch(requestUrl, {
+        method: method,
         headers: {
           "Content-type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -138,13 +143,11 @@ document.body.addEventListener("click", (event) => {
         }),
       });
 
-      //retry with refreshtoken incase accesstoken expired.
-
       if (response.status === 401) {
         token = await refreshAccessToken();
 
-        response = await fetch(commentsUrl, {
-          method: "POST",
+        response = await fetch(requestUrl, {
+          method: method, // retry with PUT/POST
           headers: {
             "Content-type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -166,10 +169,20 @@ document.body.addEventListener("click", (event) => {
       if (!response.ok) {
         error.innerHTML = `*Error: ${data.message}`;
       } else {
-        editMode = true;
         e.target.querySelector("#submitCommentbtn").style.display = "none";
         e.target.querySelector("#editCommentbtn").style.display = "block";
         e.target.comment.disabled = true;
+
+        if (!currentCommentId) {
+          currentCommentId = data._id;
+        } else {
+          const commentElement = document.querySelector(
+            `[data-comment-id="${currentCommentId}"]`
+          );
+          if (commentElement) {
+            commentElement.querySelector("p").textContent = comment;
+          }
+        }
       }
     } catch (err) {
       error.innerHTML = `*Error: ${err.message}`;
@@ -181,7 +194,6 @@ document.body.addEventListener("click", (event) => {
     .addEventListener("click", (e) => {
       e.preventDefault();
 
-      editMode = false;
       const commentField = commentModal.querySelector("textarea");
       commentField.disabled = false;
       commentField.focus();
@@ -331,6 +343,22 @@ async function refreshAccessToken() {
     console.error("Failed to refresh access token:", err);
     localStorage.removeItem("access-token");
     window.location.reload();
+  }
+}
+
+async function isAuthorised() {
+  try {
+    let token =
+      localStorage.getItem("access-token") || (await refreshAccessToken());
+    if (!token) {
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("Error during authorization check:", err);
+    localStorage.removeItem("access-token");
+    window.location.reload();
+    return false;
   }
 }
 
