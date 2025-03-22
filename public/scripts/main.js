@@ -17,10 +17,96 @@ feedbackToggle.addEventListener("change", async () => {
     feedbackToggle.checked = false;
     return;
   }
+
+  viewPrevComments();
   feedbackToggle.checked
     ? document.body.classList.add("feedback-mode")
     : document.body.classList.remove("feedback-mode");
 });
+
+const commentsUrl = "http://localhost:5001/api/comments/";
+
+async function viewPrevComments() {
+  try {
+    let token =
+      localStorage.getItem("access-token") || (await refreshAccessToken());
+
+    let response = await fetch(commentsUrl, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status === 401) {
+      token = await refreshAccessToken();
+
+      response = await fetch(commentsUrl, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.log(`*Error: ${data.message}`);
+    } else {
+      data.forEach((oldComment) => {
+        const pin = document.createElement("div");
+        pin.classList.add("pin");
+
+        const feedbackContainer = document.createElement("div");
+        feedbackContainer.classList.add("feedback-container");
+        feedbackContainer.style.position = "absolute";
+
+        feedbackContainer.style.left = oldComment.position.left;
+        feedbackContainer.style.top = oldComment.position.top;
+
+        const commentModal = document.createElement("div");
+        commentModal.classList.add("comment-modal");
+        commentModal.style.left = "0px";
+        commentModal.style.top = "25px";
+
+        commentModal.innerHTML = `
+          <p>Last modified:
+        ${
+          oldComment.updatedAt
+            ? new Date(oldComment.updatedAt).toLocaleString("en-NZ", {
+                timeZone: "Pacific/Auckland",
+              })
+            : "Date not available"
+        }
+      </p>
+      <p>Section: ${oldComment.sectionHeading}</p>
+      <p>Comment: ${oldComment.comment}</p>
+      <p>Extra Info: ${oldComment.extraInfo}</p>
+    `;
+
+        commentModal.style.display = "none";
+
+        feedbackContainer.appendChild(pin);
+        feedbackContainer.appendChild(commentModal);
+
+        document.body.appendChild(feedbackContainer);
+
+        feedbackContainer.addEventListener("mouseenter", () => {
+          commentModal.style.display = "block";
+        });
+
+        feedbackContainer.addEventListener("mouseleave", () => {
+          commentModal.style.display = "none";
+        });
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 document.body.addEventListener("click", (event) => {
   if (!feedbackToggle.checked) {
@@ -102,8 +188,6 @@ document.body.addEventListener("click", (event) => {
   feedbackContainer.addEventListener("mouseleave", () => {
     commentModal.style.display = "none";
   });
-
-  const commentsUrl = "http://localhost:5001/api/comments/";
 
   let currentCommentId = null;
 
