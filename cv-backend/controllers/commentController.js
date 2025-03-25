@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Comment = require("../models/commentModel");
 
-//@desc Get all comments
+//@desc Get all comments (only admins can)
 //@route GET /api/comments
 //@access private
 const getComments = asyncHandler(async (req, res) => {
@@ -65,7 +65,7 @@ const updateComment = asyncHandler(async (req, res) => {
   res.status(200).json(updatedComment);
 });
 
-//@desc Delete comment
+//@desc Delete comment (only admins can)
 //@route DELETE /api/comments/:id
 //@access private
 const deleteComment = asyncHandler(async (req, res) => {
