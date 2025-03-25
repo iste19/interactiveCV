@@ -9,7 +9,7 @@ connectDb();
 const app = express();
 
 const corsOptions = {
-  origin: "https://interactivecv.onrender.com",
+  origin: "https://interactivecv.istefatsawda.com",
   optionsSuccessStatus: 200,
 };
 
