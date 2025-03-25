@@ -3,9 +3,17 @@ const errorHandler = require("./middleware/errorHandler");
 const connectDb = require("./config/dbConnection");
 const dotenv = require("dotenv").config();
 const path = require("path");
+const cors = require("cors");
 
 connectDb();
 const app = express();
+
+const corsOptions = {
+  origin: "https://interactivecv.onrender.com",
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.static("../public"));
 
