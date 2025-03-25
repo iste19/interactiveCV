@@ -10,12 +10,15 @@
       href="https://fonts.googleapis.com/css2?family=Alatsi&family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       rel="stylesheet"
     />
+    <link href="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/css/swiffy-slider.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/js/swiffy-slider.min.js" crossorigin="anonymous" defer></script>
+
   </head>
   <body>
     <header class="header-container">
       <div id="greeting"></div>
       <div class="logo-title">
-          <img src="assets/favicon.ico" alt="iste logo">
+          <img id="logoImg" src="assets/favicon.ico" alt="iste logo">
           ISTEFAT SAWDA
       </div>
       <div class="auth-buttons">
@@ -84,12 +87,12 @@
           <p>https://github.com/iste19</p>
         </div>
       </a>
-      <a href="assets/images/gmail.png">
+      
         <div class="contact-item">
           <img src="assets/images/gmail.png" alt="gmail logo" />
           <p>istefatsawdainan@gmail.com</p>
         </div>
-      </a>
+      
       <a href="assets/images/linkedin.png">
         <div class="contact-item">
           <img src="assets/images/linkedin.png" alt="linkedin logo" />
@@ -149,7 +152,7 @@
       <section>
         <p class="section-heading">EDUCATION</p>
         <hr />
-        <table class="education-table">
+        <table class="education-table" id="darkmode-change">
           <tr>
             <td>
               <strong>UNIVERSITY OF AUCKLAND</strong>
@@ -176,83 +179,166 @@
       </section>
 
       <section>
+
         <p class="section-heading">PROJECTS</p>
         <hr />
+
+        <div class="swiffy-slider slider-nav-autoplay slider-nav-autopause slider-item-show2 slider-item-reveal slider-indicators-outside slider-indicators-round slider-indicators-dark slider-nav-dark slider-nav-animation slider-nav-animation-fadein slider-item-last-visible">
+          <ul class="slider-container py-4">
+              <li class="">
+                  <div class="card shadow h-100">
+                      <div class="ratio ratio-16x9">
+                          <img src="assets/images/pushpay-everything.png" class="card-img-top" loading="lazy" alt="...">
+                      </div>
+                      <div class="card-body p-3 p-xl-5 project">
+                          <h3 class="card-title h5 project-heading">GraphQL Schema Federation Exploration</h3>
+                          <p class="card-text">Worked on an 7-person experimental full-stack project at <strong>Pushpay</strong> to explore the potential transition from GraphQL schema stitching to schema federation using HotChocolate and C# (.NET).
+                            <ul>
+                              <li>
+                                  <strong>Tech utilised:</strong> React, TypeScript, Tailwind CSS, GraphQL, Auth0, Docker, AWS, Terraform, Jenkins, Jira, Git, Github
+                              </li>
+                          </ul>
+                          </p>
+                    
+                          <button class="projectDetailBut">Details</button>
+                      </div>
+
+                      
+                  </div>
+              </li>
+
+              <li class="">
+                <div class="card shadow h-100">
+                    <div class="ratio ratio-16x9">
+                        <img src="assets/images/pushpay-everything.png" class="card-img-top" loading="lazy" alt="...">
+                    </div>
+                    <div class="card-body p-3 p-xl-5 project">
+                        <h3 class="card-title h5 project-heading">Te Tuhi Disability Training Cafe Platform for Trainees</h3>
+                        <p class="card-text">Inkā is a one-stop platform for monitoring trainee progress and fostering personalised learning in a cafe environment. Developed in a 5-person capstone team, I worked as a Full-Stack developer, responsible for designing and implementing front-end and back-end features, integrating AWS services, and enabling seamless communication via GraphQL.
+                          <ul>
+                              <li><strong>Tech utilised:</strong> AWS services, Figma, Flutter, GraphQL, Jira, ClickUp, Lucid Chart, VSCode, Github</li>
+                              <li>Nominated for Community Impact Award & Peoples' Choice Award.</li>
+                              <li>Received the <strong>People's Choice Award</strong> for Best Computer Science Capstone Project.</li>
+                          </ul>
+                        </p>
+                  
+                        <button class="projectDetailBut">Details</button>
+                    </div>
+
+                    
+                </div>
+              </li>
+
+              <li class="">
+                <div class="card shadow h-100">
+                    <div class="ratio ratio-16x9">
+                        <img src="assets/images/pushpay-everything.png" class="card-img-top" loading="lazy" alt="...">
+                    </div>
+                    <div class="card-body p-3 p-xl-5 project">
+                        <h3 class="card-title h5 project-heading">Podcast Website (3-person project)</h3>
+                        <p class="card-text">Developed a full-stack podcast library where users can browse, search, interact with podcasts, and manage playlists.
+                          <ul>
+                              <li>
+                                  <strong>Tech utilised:</strong> Python, Flask, SQLAlchemy ORM, HTML/CSS, Jinja
+                              </li>
+                              <li>Followed TDD principles with comprehensive unit tests for domain models and service layers</li>
+                              <li>Integration and system testing</li>
+                              <li>Repository pattern implemented (memory + database layers for seamless data management)</li>
+                          </ul>
+                        </p>
+                  
+                        <button class="projectDetailBut">Details</button>
+                    </div>
+                </div>
+              </li>
+
+
+            <li class="">
+              <div class="card shadow h-100">
+                  <div class="ratio ratio-16x9">
+                      <img src="assets/images/pushpay-everything.png" class="card-img-top" loading="lazy" alt="...">
+                  </div>
+                  <div class="card-body p-3 p-xl-5 project">
+                      <h3 class="card-title h5 project-heading">New Zealand Sign Language (NZSL) website</h3>
+                      <p class="card-text">A website where users can learn and practice NZSL through interactive features.
+                        <ul>
+                            <li>
+                                <strong>Tech utilised:</strong> C#, .NET, JavaScript, HTML, CSS, SQLite
+                            </li>
+                        </ul>
+                      </p>
+                
+                      <button class="projectDetailBut">Details</button>
+                  </div>
+
+                  
+              </div>
+            </li>
+
+            <li class="">
+              <div class="card shadow h-100">
+                  <div class="ratio ratio-16x9">
+                      <img src="assets/images/pushpay-everything.png" class="card-img-top" loading="lazy" alt="...">
+                  </div>
+                  <div class="card-body p-3 p-xl-5 project">
+                      <h3 class="card-title h5 project-heading">A Paired Approach to Tackling Food Insecurity at UW</h3>
+                      <p class="card-text">A quarter-long UX/ UI  project is aimed at tackling food insecurity. The design process included paper prototypes, usability tests, and digital mockups, resulting in a smart vending machine and an app mockup.
+                        <ul>
+                            <li>
+                                Received “Most Impactful For UW Students” Award
+                            </li>
+                        </ul>
+                      </p>
+                
+                      <button class="projectDetailBut">Details</button>
+                  </div>
+                </div>
+
+            </li>
+
+            <li class="">
+              <div class="card shadow h-100">
+                  <div class="ratio ratio-16x9">
+                      <img src="assets/images/pushpay-everything.png" class="card-img-top" loading="lazy" alt="...">
+                  </div>
+                  <div class="card-body p-3 p-xl-5 project">
+                      <h3 class="card-title h5 project-heading">GraphQL Schema Federation Exploration</h3>
+                      <p class="card-text">Worked on an 7-person experimental full-stack project at <strong>Pushpay</strong> to explore the potential transition from GraphQL schema stitching to schema federation using HotChocolate and C# (.NET).
+                        <ul>
+                          <li>
+                              <strong>Tech utilised:</strong> React, TypeScript, Tailwind CSS, GraphQL, Auth0, Docker, AWS, Terraform, Jenkins, Jira, Git, Github
+                          </li>
+                      </ul>
+                      </p>
+                
+                      <button class="projectDetailBut">Details</button>
+                  </div>
+
+                  
+              </div>
+            </li>
+
+
+          </ul>
+      
+          <button type="button" class="slider-nav" aria-label="Go left"></button>
+          <button type="button" class="slider-nav slider-nav-next" aria-label="Go left"></button>
+      
+          <div class="slider-indicators">
+              <button class="" aria-label="Go to slide"></button>
+              <button aria-label="Go to slide" class=""></button>
+              <button aria-label="Go to slide" class=""></button>
+              <button aria-label="Go to slide"></button>
+              <button aria-label="Go to slide" class="active"></button>
+          </div>
+          
+      </div>
         
-        <div class="project">
-            <p class="project-heading">
-                <strong>GraphQL Schema Federation Exploration</strong>
-            </p>
-            <p class="text">
-                Worked on an 7-person experimental full-stack project at <strong>Pushpay</strong> to explore the potential transition from GraphQL schema stitching to schema federation using HotChocolate and C# (.NET).
-                <ul>
-                    <li>
-                        <strong>Tech utilised:</strong> React, TypeScript, Tailwind CSS, GraphQL, Auth0, Docker, AWS, Terraform, Jenkins, Jira, Git, Github
-                    </li>
-                </ul>
-            </p>
-        </div>
 
-        <div class="project">
-            <p class="project-heading">
-                <strong>Te Tuhi Disability Training Cafe Platform for Trainees</strong>
-            </p>
-            <p class="text">
-                Inkā is a one-stop platform for monitoring trainee progress and fostering personalised learning in a cafe environment. Developed in a 5-person capstone team, I worked as a Full-Stack developer, responsible for designing and implementing front-end and back-end features, integrating AWS services, and enabling seamless communication via GraphQL.
-                <ul>
-                    <li><strong>Tech utilised:</strong> AWS services, Figma, Flutter, GraphQL, Jira, ClickUp, Lucid Chart, VSCode, Github</li>
-                    <li>Nominated for Community Impact Award & Peoples' Choice Award.</li>
-                    <li>Received the <strong>People's Choice Award</strong> for Best Computer Science Capstone Project.</li>
-                </ul>
-            </p>
-        </div>
 
-        <div class="project">
-            <p class="project-heading">
-                <strong>Podcast Website (3-person project)</strong>
-            </p>
-            <p class="text">
-                Developed a full-stack podcast library where users can browse, search, interact with podcasts, and manage playlists.
-                <ul>
-                    <li>
-                        <strong>Tech utilised:</strong> Python, Flask, SQLAlchemy ORM, HTML/CSS, Jinja
-                    </li>
-                    <li>Followed TDD principles with comprehensive unit tests for domain models and service layers</li>
-                    <li>Integration and system testing</li>
-                    <li>Repository pattern implemented (memory + database layers for seamless data management)</li>
-                </ul>
-            </p>
-        </div>
-
-        <div class="project">
-            <p class="project-heading">
-                <strong>New Zealand Sign Language (NZSL) website</strong>
-            </p>
-            <p class="text">
-                A website where users can learn and practice NZSL through interactive features.
-                <ul>
-                    <li>
-                        <strong>Tech utilised:</strong> C#, .NET, JavaScript, HTML, CSS, SQLite
-                    </li>
-                </ul>
-            </p>
-        </div>
-
-        <div class="project">
-            <p class="project-heading">
-                <strong>A Paired Approach to Tackling Food Insecurity at UW</strong>
-            </p>
-            <p class="text">
-                A quarter-long UX/ UI  project is aimed at tackling food insecurity. The design process included paper prototypes, usability tests, and digital mockups, resulting in a smart vending machine and an app mockup.
-                <ul>
-                    <li>
-                        Received “Most Impactful For UW Students” Award
-                    </li>
-                </ul>
-            </p>
-        </div>
-        
       </section>
+
+
       <section>
         <p class="section-heading">AWARDS AND HONOURS</p>
         </div>
