@@ -12,8 +12,15 @@ const validateToken = require("../middleware/validateTokenHandler");
 const roleAuthorization = require("../middleware/roleAuthorization");
 
 router.use(validateToken);
-router.route("/").get(getComments).post(createComment);
+router
+  .route("/")
+  .get(roleAuthorization("admin"), getComments)
+  .post(createComment);
 router.route("/all").delete(roleAuthorization("admin"), deleteAllComments);
-router.route("/:id").get(getComment).put(updateComment).delete(deleteComment);
+router
+  .route("/:id")
+  .get(getComment)
+  .put(updateComment)
+  .delete(roleAuthorization("admin"), deleteComment);
 
 module.exports = router;
