@@ -9,10 +9,17 @@ toggle.addEventListener("change", () => {
     document.getElementById("darkmode-change").style.color = "#c4c4c4";
 
     let roles = document.getElementsByClassName("role");
-    for (var i = 0; i < roles.length; i++) {
+    for (let i = 0; i < roles.length; i++) {
       roles[i].style.backgroundColor = "rgba(95, 142, 190, 0.2)";
       roles[i].style.color = "white";
     }
+
+    document.getElementById("slider").classList.remove("slider-nav-dark");
+    document
+      .getElementById("slider")
+      .classList.remove("slider-indicators-dark");
+    document.getElementById("contacts-container").style.backgroundColor =
+      "#1E2A39";
   } else {
     document.body.classList.remove("dark-mode");
     document.getElementById("logoImg").src = "/assets/favicon.ico";
@@ -23,6 +30,10 @@ toggle.addEventListener("change", () => {
       roles[i].style.backgroundColor = "#eef1f4";
       roles[i].style.color = "black";
     }
+    document.getElementById("slider").classList.add("slider-nav-dark");
+    document.getElementById("slider").classList.add("slider-indicators-dark");
+    document.getElementById("contacts-container").style.backgroundColor =
+      "#eef1f4";
   }
 });
 

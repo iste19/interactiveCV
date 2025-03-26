@@ -1,3 +1,125 @@
+@media (max-width: 768px) {
+    body {
+        margin: 1em;
+    }
+
+    .header-container {
+        display: flex;
+        flex-direction: column; 
+        align-items: center; 
+        font-size: 2em;
+        position:relative; 
+        flex-wrap: wrap; 
+    }
+
+    .logo-title {
+        margin-bottom: 1em; 
+    }
+
+    .auth-buttons {
+        display: flex;
+        justify-content: center;
+        margin-top: 2em;
+    }
+
+    .auth-button {
+        padding: 0.8em 1em;
+        border: 2px solid #95b2cf; 
+        background-color: transparent; 
+        color: #95b2cf; 
+        font-family: "Hanken Grotesk", serif;
+        font-size: 0.8em; 
+        border-radius: 8px;
+        margin: 0.2em; 
+        white-space: nowrap; 
+    }
+
+    #greeting{
+        margin-top: 2em;
+    }
+
+    .auth-button:hover {
+        background-color: #95b2cf; 
+        color: white;
+    }
+
+    #contacts-container{
+        margin-top: 2em;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+        
+    }
+    
+    .contact-item {
+        display: flex;
+        align-items: center;
+        margin: 0.2em;
+        
+    }
+    
+    .timeline-content h3 {
+        font-size: 0.9em;
+    }
+
+    .role {
+        display: block;
+        font-size: 0.9em;
+    }
+
+    #timeline::after {
+        left: 10px !important; 
+
+    }
+
+    .timeline-item::after {
+        left: -10px !important; 
+    }
+    .modal-content {
+        min-width: 250px; 
+        padding: 1em; 
+        margin: 2em 0.5em;
+    }
+
+    .modal-content img {
+        max-width: 80%;
+        height: auto;
+        object-fit: contain;
+    }
+
+    .timeline-item.left,
+    .timeline-item.right {
+        width: 100% !important; 
+    }
+
+    .timeline-item.left .timeline-content,
+    .timeline-item.right .timeline-content {
+        width: 95% !important; 
+        margin: 10px auto !important; 
+        margin-left: 10px !important;
+        text-align: left !important; 
+    }
+
+    .timeline-item.right .timeline-content {
+        margin: 10px auto !important;
+        margin-left: -190px !important;
+        
+    }
+
+    .last {
+        display: flex !important;
+        flex-direction: column !important; 
+    }
+
+    .spacing {
+        width: 100% !important; 
+        
+    }
+
+    
+}
+
 body{
     margin: 0.5em;
     font-family: "Poppins", serif;
@@ -38,6 +160,37 @@ body.dark-mode #timeline::after {
 body.dark-mode .timeline-item::after {
     background-color: #5f8ebe;
 }
+
+body.dark-mode .projectDetailBut {
+    background-color: #2a3a4f; 
+    color: #c3d2e2; 
+    border: 1px solid rgba(107, 114, 128, 0.6);
+    border-radius: 2em; 
+    padding: 2em;
+    margin-top: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Poppins', 'serif';
+    font-size: 1em;
+    box-shadow: none;
+}
+
+body.dark-mode .projectDetailBut:hover {
+    box-shadow: 0 4px 8px 0 rgba(95, 142, 190, 0.6); 
+}
+
+body.dark-mode .card{
+    background-color: #1E2A39; 
+    box-shadow: 0 4px 8px 0 rgba(95, 142, 190, 0.6); 
+}
+
+body.dark-mode a{
+    color: lightblue;
+
+}
+
 
 
 body.feedback-mode section{
@@ -146,18 +299,23 @@ section{
     margin-top: -0.5em;
 }
 
+
+
 .card {
     margin: 1.5em;
-    padding-left: 3em;
-    padding-right: 3em;
-    padding-top: 3em;
+    padding: 3em;
     border-radius: 1em;
     box-shadow: 0 4px 8px 0 rgba(149, 178, 207, 0.6);
-    height: 50em; 
+    min-height: 20em;
     display: flex;
     flex-direction: column;
     margin-top: 2em;
-    margin-bottom: 1.5em;
+    margin-bottom: 3em;
+    flex-grow: 1;
+}
+
+.card .card-body{
+    flex-grow: 1;
 }
 
 
@@ -169,8 +327,8 @@ section{
     padding: 2em;
     margin-top: 2em;
     display: flex;
-    align-items: center;   /* Vertically centers the text */
-    justify-content: center; /* Horizontally centers the text */
+    align-items: center;  
+    justify-content: center; 
     text-align: center;
     font-family:'Poppins', 'serif';
     color: #5f8ebe;
@@ -181,6 +339,7 @@ section{
     box-shadow: 0 8px 16px 0 rgba(149, 178, 207, 0.6);
 
 }
+
 
 
 .card .ratio {
@@ -201,6 +360,8 @@ section{
     position: relative !important; 
 
 }
+
+
 
 .slider-nav {
     position: absolute !important;
@@ -236,6 +397,7 @@ section{
 
 .contact-item{
     display: flex;
+    align-items: center;
 }
 
 .contact-item img{
