@@ -1,5 +1,7 @@
 import timelineData from "./experienceTimelineData.js";
 
+import projectDetailData from "./projectDetailData.js";
+
 const toggle = document.getElementById("darkModeToggle");
 
 toggle.addEventListener("change", () => {
@@ -112,7 +114,6 @@ async function viewPrevComments() {
       </p>
       <p>Section: ${oldComment.sectionHeading}</p>
       <p>Comment: ${oldComment.comment}</p>
-      <p>Extra Info: ${oldComment.extraInfo}</p>
     `;
 
         commentModal.style.display = "none";
@@ -184,6 +185,52 @@ document.body.addEventListener("click", (event) => {
 
   feedbackContainer.style.left = event.clientX + offsetX + "px";
   feedbackContainer.style.top = event.clientY + offsetY + "px";
+
+  const targetElement = event.target;
+  extraInfo += `Clicked Element: ${targetElement.tagName}`;
+  if (targetElement.id) {
+    extraInfo += `#${targetElement.id}`;
+  }
+  if (targetElement.classList.length > 0) {
+    extraInfo += `.${Array.from(targetElement.classList).join(".")}`;
+  }
+
+  let parent = targetElement.parentElement;
+  let depth = 0;
+  while (parent && depth < 5) {
+    extraInfo += ` > ${parent.tagName}`;
+    if (parent.id) {
+      extraInfo += `#${parent.id}`;
+    }
+    if (parent.classList.length > 0) {
+      extraInfo += `.${Array.from(parent.classList).join(".")}`;
+    }
+    parent = parent.parentElement;
+    depth++;
+  }
+
+  if (
+    targetElement.classList &&
+    targetElement.classList.contains("timeline-content")
+  ) {
+    extraInfo += ` (Timeline Index: ${targetElement.dataset.index})`;
+  }
+
+  if (
+    targetElement.classList &&
+    targetElement.classList.contains("projectDetailBut")
+  ) {
+    extraInfo += ` (Project Index: ${targetElement.dataset.projectIndex})`;
+  }
+
+  // Capture other data attributes
+  for (const attr of targetElement.attributes) {
+    if (attr.name.startsWith("data-")) {
+      extraInfo += ` (${attr.name}:${attr.value})`;
+    }
+  }
+
+  extraInfo += ` (Left: ${feedbackContainer.style.left}, Top: ${feedbackContainer.style.top})`;
 
   const commentModal = document.createElement("div");
   commentModal.classList.add("comment-modal");
@@ -474,6 +521,129 @@ async function isAuthorised() {
   }
 }
 
+// --------------------- project details --------------------- //
+
+const modal = document.getElementById("projectDetailModal");
+const modalTitle = document.getElementById("modalProjectTitle");
+const modalSliderContent = document.getElementById("modalSliderContent");
+const modalDetails = document.getElementById("modalProjectDetails");
+const modalVideo = document.getElementById("modalProjectVideo");
+const closeModalButton = document.querySelector(".close");
+const mainSlider = document.getElementById("slider");
+
+if (mainSlider) {
+  mainSlider
+    .querySelector(".slider-container")
+    .addEventListener("scroll", () => {
+      const container = mainSlider.querySelector(".slider-container");
+      const lastSlide = container.lastElementChild;
+
+      if (lastSlide.classList.contains("slide-visible")) {
+        setTimeout(() => {
+          container.scroll({ left: 0, behavior: "smooth" });
+        }, 1200);
+      }
+    });
+}
+
+const detailButtons = document.querySelectorAll(".projectDetailBut");
+
+function initializeModalSlider(modalElement, images) {
+  let imagesLoaded = 0;
+  const sliderElement = modalElement.querySelector("#modalProjectSlider");
+
+  const checkImagesLoaded = () => {
+    if (
+      imagesLoaded === images.length &&
+      window.swiffyslider &&
+      sliderElement
+    ) {
+      sliderElement.classList.add("swiffy-slider");
+      setTimeout(() => {
+        try {
+          window.swiffyslider.initSlider(sliderElement);
+        } catch (error) {
+          console.error("Error initializing slider:", error);
+        }
+      }, 100);
+    }
+  };
+
+  if (images.length === 0) {
+    checkImagesLoaded();
+  } else {
+    images.forEach((img) => {
+      if (img.complete) {
+        imagesLoaded++;
+        checkImagesLoaded();
+      } else {
+        img.onload = img.onerror = () => {
+          imagesLoaded++;
+          checkImagesLoaded();
+        };
+      }
+    });
+  }
+}
+
+detailButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const projectIndex = parseInt(button.dataset.projectIndex);
+    const project = projectDetailData[projectIndex];
+
+    modalTitle.textContent = project.title;
+    modalDetails.innerHTML = project.details || "";
+
+    modalSliderContent.innerHTML = project.images
+      .map(
+        (imageUrl) =>
+          `<li class=""><img src="${imageUrl}" alt="Project Image"></li>`
+      )
+      .join("");
+
+    if (project.videoUrl2) {
+      modalVideo.innerHTML = `<div class="subheading">DawgNourish Phone App mockup</div>`;
+      modalVideo.innerHTML += project.videoUrl;
+      modalVideo.innerHTML += `<div class="subheading2">Husky munchies vending machine digital mockup</div>`;
+      modalVideo.innerHTML += project.videoUrl2;
+      modalVideo.innerHTML += `<a class="medium" href="https://cse440.medium.com/a-paired-approach-to-tackling-food-insecurity-at-uw-71ae9bbfa6ce" target="_blank">Read the Medium Article</a>`;
+    } else {
+      if (project.videoUrl) {
+        modalVideo.innerHTML = `<div class="subheading">Demo</div>`;
+        modalVideo.innerHTML += project.videoUrl;
+      } else {
+        modalVideo.innerHTML = "";
+      }
+    }
+
+    modal.style.display = "block";
+
+    const indicators = modal.querySelector(".modal-slider-indicators");
+    indicators.innerHTML = "";
+
+    project.images.forEach((_, index) => {
+      const indicatorButton = document.createElement("button");
+      indicatorButton.setAttribute("aria-label", "Go to slide");
+      if (index === 0) {
+        indicatorButton.classList.add("active");
+      }
+      indicators.appendChild(indicatorButton);
+    });
+
+    const images = modalSliderContent.querySelectorAll("img");
+    initializeModalSlider(modal, images);
+  });
+});
+
+closeModalButton.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+
+window.addEventListener("click", (event) => {
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+});
 // --------------------- timeline --------------------- //
 
 const timeline = document.getElementById("timeline");
