@@ -114,7 +114,6 @@ async function viewPrevComments() {
       </p>
       <p>Section: ${oldComment.sectionHeading}</p>
       <p>Comment: ${oldComment.comment}</p>
-      <p>Extra Info: ${oldComment.extraInfo}</p>
     `;
 
         commentModal.style.display = "none";
@@ -186,6 +185,52 @@ document.body.addEventListener("click", (event) => {
 
   feedbackContainer.style.left = event.clientX + offsetX + "px";
   feedbackContainer.style.top = event.clientY + offsetY + "px";
+
+  const targetElement = event.target;
+  extraInfo += `Clicked Element: ${targetElement.tagName}`;
+  if (targetElement.id) {
+    extraInfo += `#${targetElement.id}`;
+  }
+  if (targetElement.classList.length > 0) {
+    extraInfo += `.${Array.from(targetElement.classList).join(".")}`;
+  }
+
+  let parent = targetElement.parentElement;
+  let depth = 0;
+  while (parent && depth < 5) {
+    extraInfo += ` > ${parent.tagName}`;
+    if (parent.id) {
+      extraInfo += `#${parent.id}`;
+    }
+    if (parent.classList.length > 0) {
+      extraInfo += `.${Array.from(parent.classList).join(".")}`;
+    }
+    parent = parent.parentElement;
+    depth++;
+  }
+
+  if (
+    targetElement.classList &&
+    targetElement.classList.contains("timeline-content")
+  ) {
+    extraInfo += ` (Timeline Index: ${targetElement.dataset.index})`;
+  }
+
+  if (
+    targetElement.classList &&
+    targetElement.classList.contains("projectDetailBut")
+  ) {
+    extraInfo += ` (Project Index: ${targetElement.dataset.projectIndex})`;
+  }
+
+  // Capture other data attributes
+  for (const attr of targetElement.attributes) {
+    if (attr.name.startsWith("data-")) {
+      extraInfo += ` (${attr.name}:${attr.value})`;
+    }
+  }
+
+  extraInfo += ` (Left: ${feedbackContainer.style.left}, Top: ${feedbackContainer.style.top})`;
 
   const commentModal = document.createElement("div");
   commentModal.classList.add("comment-modal");
