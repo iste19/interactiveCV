@@ -1,5 +1,7 @@
 import timelineData from "./experienceTimelineData.js";
 
+import projectDetailData from "./projectDetailData.js";
+
 const toggle = document.getElementById("darkModeToggle");
 
 toggle.addEventListener("change", () => {
@@ -474,6 +476,129 @@ async function isAuthorised() {
   }
 }
 
+// --------------------- project details --------------------- //
+
+const modal = document.getElementById("projectDetailModal");
+const modalTitle = document.getElementById("modalProjectTitle");
+const modalSliderContent = document.getElementById("modalSliderContent");
+const modalDetails = document.getElementById("modalProjectDetails");
+const modalVideo = document.getElementById("modalProjectVideo");
+const closeModalButton = document.querySelector(".close");
+const mainSlider = document.getElementById("slider");
+
+if (mainSlider) {
+  mainSlider
+    .querySelector(".slider-container")
+    .addEventListener("scroll", () => {
+      const container = mainSlider.querySelector(".slider-container");
+      const lastSlide = container.lastElementChild;
+
+      if (lastSlide.classList.contains("slide-visible")) {
+        setTimeout(() => {
+          container.scroll({ left: 0, behavior: "smooth" });
+        }, 1200);
+      }
+    });
+}
+
+const detailButtons = document.querySelectorAll(".projectDetailBut");
+
+function initializeModalSlider(modalElement, images) {
+  let imagesLoaded = 0;
+  const sliderElement = modalElement.querySelector("#modalProjectSlider");
+
+  const checkImagesLoaded = () => {
+    if (
+      imagesLoaded === images.length &&
+      window.swiffyslider &&
+      sliderElement
+    ) {
+      sliderElement.classList.add("swiffy-slider");
+      setTimeout(() => {
+        try {
+          window.swiffyslider.initSlider(sliderElement);
+        } catch (error) {
+          console.error("Error initializing slider:", error);
+        }
+      }, 100);
+    }
+  };
+
+  if (images.length === 0) {
+    checkImagesLoaded();
+  } else {
+    images.forEach((img) => {
+      if (img.complete) {
+        imagesLoaded++;
+        checkImagesLoaded();
+      } else {
+        img.onload = img.onerror = () => {
+          imagesLoaded++;
+          checkImagesLoaded();
+        };
+      }
+    });
+  }
+}
+
+detailButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const projectIndex = parseInt(button.dataset.projectIndex);
+    const project = projectDetailData[projectIndex];
+
+    modalTitle.textContent = project.title;
+    modalDetails.innerHTML = project.details || "";
+
+    modalSliderContent.innerHTML = project.images
+      .map(
+        (imageUrl) =>
+          `<li class=""><img src="${imageUrl}" alt="Project Image"></li>`
+      )
+      .join("");
+
+    if (project.videoUrl2) {
+      modalVideo.innerHTML = `<div class="subheading">DawgNourish Phone App mockup</div>`;
+      modalVideo.innerHTML += project.videoUrl;
+      modalVideo.innerHTML += `<div class="subheading2">Husky munchies vending machine digital mockup</div>`;
+      modalVideo.innerHTML += project.videoUrl2;
+      modalVideo.innerHTML += `<a class="medium" href="https://cse440.medium.com/a-paired-approach-to-tackling-food-insecurity-at-uw-71ae9bbfa6ce" target="_blank">Read the Medium Article</a>`;
+    } else {
+      if (project.videoUrl) {
+        modalVideo.innerHTML = `<div class="subheading">Demo</div>`;
+        modalVideo.innerHTML += project.videoUrl;
+      } else {
+        modalVideo.innerHTML = "";
+      }
+    }
+
+    modal.style.display = "block";
+
+    const indicators = modal.querySelector(".modal-slider-indicators");
+    indicators.innerHTML = "";
+
+    project.images.forEach((_, index) => {
+      const indicatorButton = document.createElement("button");
+      indicatorButton.setAttribute("aria-label", "Go to slide");
+      if (index === 0) {
+        indicatorButton.classList.add("active");
+      }
+      indicators.appendChild(indicatorButton);
+    });
+
+    const images = modalSliderContent.querySelectorAll("img");
+    initializeModalSlider(modal, images);
+  });
+});
+
+closeModalButton.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+
+window.addEventListener("click", (event) => {
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+});
 // --------------------- timeline --------------------- //
 
 const timeline = document.getElementById("timeline");

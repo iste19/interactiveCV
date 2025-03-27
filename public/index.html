@@ -10,76 +10,89 @@
       href="https://fonts.googleapis.com/css2?family=Alatsi&family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       rel="stylesheet"
     />
-    <link href="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/css/swiffy-slider.min.css" rel="stylesheet" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/js/swiffy-slider.min.js" crossorigin="anonymous" defer></script>
-
+    <link
+      href="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/css/swiffy-slider.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/js/swiffy-slider.min.js"
+      crossorigin="anonymous"
+      defer
+    ></script>
   </head>
   <body>
     <header class="header-container">
       <div id="greeting"></div>
       <div class="logo-title">
-          <img id="logoImg" src="assets/favicon.ico" alt="iste logo">
-          ISTEFAT SAWDA
+        <img id="logoImg" src="assets/favicon.ico" alt="iste logo" />
+        ISTEFAT SAWDA
       </div>
       <div class="auth-buttons">
         <button id="signup" class="auth-button">Sign up</button>
-        <button id = "login" class="auth-button">Login</button>
-        <button id = "logout" class="auth-button">Logout</button>
+        <button id="login" class="auth-button">Login</button>
+        <button id="logout" class="auth-button">Logout</button>
       </div>
-  </header>
+    </header>
 
-  
+    <div id="signupContainer">
+      <div id="signupContent">
+        <form id="signupForm">
+          <span class="closeLog">&times;</span>
+          <br />
+          <br />
 
-  <div id="signupContainer">
-    <div id="signupContent"> 
+          <label for="uname"><b>Username</b></label>
+          <input
+            type="text"
+            placeholder="Enter Username"
+            name="uname"
+            required
+          />
 
-      <form id="signupForm">
-        <span class="closeLog">&times;</span>
-        <br/>
-        <br/>
+          <label for="eml"><b>Email</b></label>
+          <input type="text" placeholder="Enter Email" name="eml" required />
 
-        <label for="uname"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="uname" required>
+          <label for="psw"><b>Password</b></label>
+          <input
+            type="password"
+            placeholder="Enter Password"
+            name="psw"
+            required
+          />
 
-        <label for="eml"><b>Email</b></label>
-        <input type="text" placeholder="Enter Email" name="eml" required>
+          <p id="errorSignup" class="error"></p>
 
-        <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="psw" required>
-
-        <p id="errorSignup" class="error"></p>
-
-        <button type="submit">Sign up</button>
-
-      </form>
-      
+          <button type="submit">Sign up</button>
+        </form>
+      </div>
     </div>
-  </div>
 
-  <div id="loginContainer">
-    <div id="loginContent"> 
-      
-      <form id="loginForm">
-        <span class="closeLog">&times;</span>
-        <br/>
-        <br/>
+    <div id="loginContainer">
+      <div id="loginContent">
+        <form id="loginForm">
+          <span class="closeLog">&times;</span>
+          <br />
+          <br />
 
-        <label for="eml"><b>Email</b></label>
-        <input type="text" placeholder="Enter Email" name="eml" required>
+          <label for="eml"><b>Email</b></label>
+          <input type="text" placeholder="Enter Email" name="eml" required />
 
-        <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="psw" required>
+          <label for="psw"><b>Password</b></label>
+          <input
+            type="password"
+            placeholder="Enter Password"
+            name="psw"
+            required
+          />
 
-        <p id="errorLogin" class="error"></p>
+          <p id="errorLogin" class="error"></p>
 
-        <button type="submit">Log in</button>
-
-      </form>
-      
+          <button type="submit">Log in</button>
+        </form>
+      </div>
     </div>
-  </div>
 
-    
     <div id="contacts-container">
       <a href="https://github.com/iste19">
         <div class="contact-item">
@@ -87,12 +100,12 @@
           <p>https://github.com/iste19</p>
         </div>
       </a>
-      
-        <div class="contact-item">
-          <img src="assets/images/gmail.png" alt="gmail logo" />
-          <p>istefatsawdainan@gmail.com</p>
-        </div>
-      
+
+      <div class="contact-item">
+        <img src="assets/images/gmail.png" alt="gmail logo" />
+        <p>istefatsawdainan@gmail.com</p>
+      </div>
+
       <a href="assets/images/linkedin.png">
         <div class="contact-item">
           <img src="assets/images/linkedin.png" alt="linkedin logo" />
@@ -102,11 +115,10 @@
     </div>
 
     <div class="toggles-container">
-
-      <div class="toggles"> 
+      <div class="toggles">
         <div class="toggle-message">Feedback Mode</div>
         <label class="switch">
-          <input type="checkbox" id="feedbackModeToggle">
+          <input type="checkbox" id="feedbackModeToggle" />
           <span class="slider round"></span>
         </label>
       </div>
@@ -114,12 +126,10 @@
       <div class="toggles">
         <div class="toggle-message">Dark Mode</div>
         <label class="switch">
-          <input type="checkbox" id="darkModeToggle">
+          <input type="checkbox" id="darkModeToggle" />
           <span class="slider round"></span>
         </label>
-  
       </div>
-
     </div>
 
     <article>
@@ -131,7 +141,9 @@
           of Science and have gained valuable experience through an internship
           at Pushpay and various full-stack development projects. I've worked
           with technologies such as
-          <strong>C# in .NET Core, Flask (Python), Nodejs, React, TypeScript,</strong>
+          <strong
+            >C# in .NET Core, Flask (Python), Nodejs, React, TypeScript,</strong
+          >
           and <strong>CSS</strong> to build impactful solutions both
           independently and as part of a team.
           <br />
@@ -179,336 +191,404 @@
       </section>
 
       <section>
-
         <p class="section-heading">PROJECTS</p>
         <hr />
 
-        <div id="slider" class="swiffy-slider slider-nav-autoplay slider-nav-autopause slider-item-show2 slider-item-reveal slider-indicators-outside slider-indicators-round slider-indicators-dark slider-nav-dark slider-nav-animation slider-nav-animation-fadein slider-item-last-visible">
+        <div
+          id="slider"
+          class="swiffy-slider slider-nav-autoplay slider-nav-autopause slider-item-show2 slider-item-reveal slider-indicators-outside slider-indicators-round slider-indicators-dark slider-nav-dark slider-nav-animation slider-nav-animation-fadein slider-item-last-visible"
+        >
           <ul class="slider-container py-4">
-              <li class="">
-                  <div class="card shadow h-100">
-                      <div class="ratio ratio-16x9">
-                          <img src="assets/images/pushpay-everything.png" class="card-img-top" loading="lazy" alt="...">
-                      </div>
-                      <div class="card-body p-3 p-xl-5 project">
-                          <h3 class="card-title h5 project-heading">GraphQL Schema Federation Exploration</h3>
-                          <p class="card-text">Worked on an 7-person experimental full-stack project at <strong>Pushpay</strong> to explore the potential transition from GraphQL schema stitching to schema federation using HotChocolate and C# (.NET).
-                            <ul>
-                              <li>
-                                  <strong>Tech utilised:</strong> React, TypeScript, Tailwind CSS, GraphQL, Auth0, Docker, AWS, Terraform, Jenkins, Jira, Git, Github
-                              </li>
-                          </ul>
-                          </p>
-                    
-                          <button class="projectDetailBut">Details</button>
-                      </div>
-
-                      
-                  </div>
-              </li>
-
-              <li class="">
-                <div class="card shadow h-100">
-                    <div class="ratio ratio-16x9">
-                        <img src="assets/images/pushpay-everything.png" class="card-img-top" loading="lazy" alt="...">
-                    </div>
-                    <div class="card-body p-3 p-xl-5 project">
-                        <h3 class="card-title h5 project-heading">Te Tuhi Disability Training Cafe Platform for Trainees</h3>
-                        <p class="card-text">Inkā is a one-stop platform for monitoring trainee progress and fostering personalised learning in a cafe environment. Developed in a 5-person capstone team, I worked as a Full-Stack developer, responsible for designing and implementing front-end and back-end features, integrating AWS services, and enabling seamless communication via GraphQL.
-                          <ul>
-                              <li><strong>Tech utilised:</strong> AWS services, Figma, Flutter, GraphQL, Jira, ClickUp, Lucid Chart, VSCode, Github</li>
-                              <li>Nominated for Community Impact Award & Peoples' Choice Award.</li>
-                              <li>Received the <strong>People's Choice Award</strong> for Best Computer Science Capstone Project.</li>
-                          </ul>
-                        </p>
-                  
-                        <button class="projectDetailBut">Details</button>
-                    </div>
-
-                    
-                </div>
-              </li>
-
-              <li class="">
-                <div class="card shadow h-100">
-                    <div class="ratio ratio-16x9">
-                        <img src="assets/images/pushpay-everything.png" class="card-img-top" loading="lazy" alt="...">
-                    </div>
-                    <div class="card-body p-3 p-xl-5 project">
-                        <h3 class="card-title h5 project-heading">Podcast Website (3-person project)</h3>
-                        <p class="card-text">Developed a full-stack podcast library where users can browse, search, interact with podcasts, and manage playlists.
-                          <ul>
-                              <li>
-                                  <strong>Tech utilised:</strong> Python, Flask, SQLAlchemy ORM, HTML/CSS, Jinja
-                              </li>
-                              <li>Followed TDD principles with comprehensive unit tests for domain models and service layers</li>
-                              <li>Integration and system testing</li>
-                              <li>Repository pattern implemented (memory + database layers for seamless data management)</li>
-                          </ul>
-                        </p>
-                  
-                        <button class="projectDetailBut">Details</button>
-                    </div>
-                </div>
-              </li>
-
-
             <li class="">
               <div class="card shadow h-100">
-                  <div class="ratio ratio-16x9">
-                      <img src="assets/images/pushpay-everything.png" class="card-img-top" loading="lazy" alt="...">
-                  </div>
-                  <div class="card-body p-3 p-xl-5 project">
-                      <h3 class="card-title h5 project-heading">New Zealand Sign Language (NZSL) website</h3>
-                      <p class="card-text">A website where users can learn and practice NZSL through interactive features.
-                        <ul>
-                            <li>
-                                <strong>Tech utilised:</strong> C#, .NET, JavaScript, HTML, CSS, SQLite
-                            </li>
-                        </ul>
-                      </p>
-                
-                      <button class="projectDetailBut">Details</button>
-                  </div>
+                <div class="ratio ratio-16x9">
+                  <img
+                    src="assets/images/pushpay-everything.png"
+                    class="card-img-top"
+                    loading="lazy"
+                    alt="..."
+                  />
+                </div>
+                <div class="card-body p-3 p-xl-5 project">
+                  <h3 class="card-title h5 project-heading">
+                    GraphQL Schema Federation Exploration
+                  </h3>
+                  <p class="card-text">
+                    Worked on an 7-person experimental full-stack project at
+                    <strong>Pushpay</strong> to explore the potential transition
+                    from GraphQL schema stitching to schema federation using
+                    HotChocolate and C# (.NET).
+                  </p>
 
-                  
+                  <button class="projectDetailBut" data-project-index="0">
+                    Details
+                  </button>
+                </div>
               </div>
             </li>
 
             <li class="">
               <div class="card shadow h-100">
-                  <div class="ratio ratio-16x9">
-                      <img src="assets/images/pushpay-everything.png" class="card-img-top" loading="lazy" alt="...">
-                  </div>
-                  <div class="card-body p-3 p-xl-5 project">
-                      <h3 class="card-title h5 project-heading">A Paired Approach to Tackling Food Insecurity at UW</h3>
-                      <p class="card-text">A quarter-long UX/ UI  project is aimed at tackling food insecurity. The design process included paper prototypes, usability tests, and digital mockups, resulting in a smart vending machine and an app mockup.
-                        <ul>
-                            <li>
-                                Received “Most Impactful For UW Students” Award
-                            </li>
-                        </ul>
-                      </p>
-                
-                      <button class="projectDetailBut">Details</button>
-                  </div>
+                <div class="ratio ratio-16x9">
+                  <img
+                    src="assets/images/inka-poster.png"
+                    class="card-img-top"
+                    loading="lazy"
+                    alt="..."
+                  />
                 </div>
+                <div class="card-body p-3 p-xl-5 project">
+                  <h3 class="card-title h5 project-heading">
+                    Te Tuhi Disability Training Cafe Platform for Trainees
+                  </h3>
+                  <p class="card-text">
+                    Inkā is a one-stop platform for monitoring trainee progress
+                    and fostering personalised learning in a cafe environment.
+                    Developed in a 5-person capstone team, I worked as a
+                    Full-Stack developer, responsible for designing and
+                    implementing front-end and back-end features, integrating
+                    AWS services, and enabling seamless communication via
+                    GraphQL.
+                  </p>
 
+                  <button class="projectDetailBut" data-project-index="1">
+                    Details
+                  </button>
+                </div>
+              </div>
             </li>
 
             <li class="">
               <div class="card shadow h-100">
-                  <div class="ratio ratio-16x9">
-                      <img src="assets/images/pushpay-everything.png" class="card-img-top" loading="lazy" alt="...">
-                  </div>
-                  <div class="card-body p-3 p-xl-5 project">
-                      <h3 class="card-title h5 project-heading">GraphQL Schema Federation Exploration</h3>
-                      <p class="card-text">Worked on an 7-person experimental full-stack project at <strong>Pushpay</strong> to explore the potential transition from GraphQL schema stitching to schema federation using HotChocolate and C# (.NET).
-                        <ul>
-                          <li>
-                              <strong>Tech utilised:</strong> React, TypeScript, Tailwind CSS, GraphQL, Auth0, Docker, AWS, Terraform, Jenkins, Jira, Git, Github
-                          </li>
-                      </ul>
-                      </p>
-                
-                      <button class="projectDetailBut">Details</button>
-                  </div>
-
-                  
+                <div class="ratio ratio-16x9">
+                  <img
+                    src="assets/images/podcast-main.png"
+                    class="card-img-top"
+                    loading="lazy"
+                    alt="..."
+                  />
+                </div>
+                <div class="card-body p-3 p-xl-5 project">
+                  <h3 class="card-title h5 project-heading">
+                    Podcast Website (3-person project)
+                  </h3>
+                  <p class="card-text">
+                    Developed a full-stack podcast library where users can
+                    browse, search, interact with podcasts, and manage
+                    playlists.
+                  </p>
+                  <button class="projectDetailBut" data-project-index="2">
+                    Details
+                  </button>
+                </div>
               </div>
             </li>
 
+            <li class="">
+              <div class="card shadow h-100">
+                <div class="ratio ratio-16x9">
+                  <img
+                    src="assets/images/335.png"
+                    class="card-img-top"
+                    loading="lazy"
+                    alt="..."
+                  />
+                </div>
+                <div class="card-body p-3 p-xl-5 project">
+                  <h3 class="card-title h5 project-heading">
+                    New Zealand Sign Language (NZSL) website
+                  </h3>
+                  <p class="card-text">
+                    A website where users can learn and practice NZSL through
+                    interactive features.
+                  </p>
 
+                  <button class="projectDetailBut" data-project-index="3">
+                    Details
+                  </button>
+                </div>
+              </div>
+            </li>
+
+            <li class="">
+              <div class="card shadow h-100">
+                <div class="ratio ratio-16x9">
+                  <img
+                    src="assets/images/dawg-poster.png"
+                    class="card-img-top"
+                    loading="lazy"
+                    alt="..."
+                  />
+                </div>
+                <div class="card-body p-3 p-xl-5 project">
+                  <h3 class="card-title h5 project-heading">
+                    A Paired Approach to Tackling Food Insecurity at UW
+                  </h3>
+                  <p class="card-text">
+                    A quarter-long UX/ UI project is aimed at tackling food
+                    insecurity. The design process included paper prototypes,
+                    usability tests, and digital mockups, resulting in a smart
+                    vending machine and an app mockup.
+                  </p>
+
+                  <button class="projectDetailBut" data-project-index="4">
+                    Details
+                  </button>
+                </div>
+              </div>
+            </li>
+
+            <li class="">
+              <div class="card shadow h-100">
+                <div class="ratio ratio-16x9">
+                  <img
+                    src="assets/favicon.ico"
+                    class="card-img-top"
+                    loading="lazy"
+                    alt="..."
+                  />
+                </div>
+                <div class="card-body p-3 p-xl-5 project">
+                  <h3 class="card-title h5 project-heading">Interactive CV</h3>
+                  <p class="card-text">You are using it right now !! :D</p>
+
+                  <button class="projectDetailBut" data-project-index="5">
+                    Details
+                  </button>
+                </div>
+              </div>
+            </li>
           </ul>
-      
-          <button type="button" class="slider-nav" aria-label="Go left"></button>
-          <button type="button" class="slider-nav slider-nav-next" aria-label="Go left"></button>
-      
+
+          <button
+            type="button"
+            class="slider-nav"
+            aria-label="Go left"
+          ></button>
+          <button
+            type="button"
+            class="slider-nav slider-nav-next"
+            aria-label="Go left"
+          ></button>
+
           <div class="slider-indicators">
-              <button class="" aria-label="Go to slide"></button>
-              <button aria-label="Go to slide" class=""></button>
-              <button aria-label="Go to slide" class=""></button>
-              <button aria-label="Go to slide"></button>
-              <button aria-label="Go to slide" class="active"></button>
+            <button aria-label="Go to slide" class="active"></button>
+            <button aria-label="Go to slide" class=""></button>
+            <button aria-label="Go to slide" class=""></button>
+            <button aria-label="Go to slide" class=""></button>
+            <button aria-label="Go to slide" class=""></button>
+            <button aria-label="Go to slide" class=""></button>
           </div>
-          
-      </div>
-        
+        </div>
 
-
+        <div id="projectDetailModal" class="modal">
+          <div class="modal-content project-content">
+            <span class="close">&times;</span>
+            <h2 id="modalProjectTitle"></h2>
+            <p id="modalProjectDetails"></p>
+            <div
+              id="modalProjectSlider"
+              class="slider-nav-autoplay slider-nav-autopause slider-item-show1 slider-item-reveal slider-indicators-outside slider-indicators-round slider-indicators-dark slider-nav-dark slider-nav-animation slider-nav-animation-fadein slider-item-last-visible"
+            >
+              <ul class="slider-container py-4" id="modalSliderContent"></ul>
+              <button
+                type="button"
+                class="slider-nav"
+                aria-label="Go left"
+              ></button>
+              <button
+                type="button"
+                class="slider-nav slider-nav-next"
+                aria-label="Go right"
+              ></button>
+              <div class="slider-indicators modal-slider-indicators"></div>
+            </div>
+            <div id="modalProjectVideo"></div>
+          </div>
+        </div>
       </section>
-
 
       <section>
         <p class="section-heading">AWARDS AND HONOURS</p>
-        </div>
+
         <hr />
         <ul>
-            <li>
-                Certificate of Distinction in:
-                <br/>
-                Concepts in Statistics
-                <img class="diamond" src="assets/images/diamond.ico">
-                Introduction to Statistics
-                <img class="diamond" src="assets/images/diamond.ico">
-                Data Analysis
-            </li>
-            <li>
-                Certificate of Outstanding Achievement in:
-                <br/>
-                Principles of Programming 
-                <img class="diamond" src="assets/images/diamond.ico">
-                Capstone: Computer Science
-                <img class="diamond" src="assets/images/diamond.ico">
-                Software Development Methodologies
-            </li>
-            <li>People’s Choice Award for Best Computer Science Capstone Project.</li>
-            <li>“Most Impactful For UW Students” Award</li>
-            <li>Excellence endorsement in NCEA lvl 1, 2 & 3</li>
-            <li>“The Most Improved in Design” Award</li>
+          <li>
+            Certificate of Distinction in:
+            <br />
+            Concepts in Statistics
+            <img class="diamond" src="assets/images/diamond.ico" />
+            Introduction to Statistics
+            <img class="diamond" src="assets/images/diamond.ico" />
+            Data Analysis
+          </li>
+          <li>
+            Certificate of Outstanding Achievement in:
+            <br />
+            Principles of Programming
+            <img class="diamond" src="assets/images/diamond.ico" />
+            Capstone: Computer Science
+            <img class="diamond" src="assets/images/diamond.ico" />
+            Software Development Methodologies
+          </li>
+          <li>
+            People’s Choice Award for Best Computer Science Capstone Project.
+          </li>
+          <li>“Most Impactful For UW Students” Award</li>
+          <li>Excellence endorsement in NCEA lvl 1, 2 & 3</li>
+          <li>“The Most Improved in Design” Award</li>
         </ul>
       </section>
       <section>
         <p class="section-heading">TECHNICAL SKILLS</p>
         <hr />
         <p><strong>Languages & Frameworks & Libraries:</strong></p>
-        <p>Python
-            <img class="diamond" src="assets/images/diamond.ico"> Flask
-            <img class="diamond" src="assets/images/diamond.ico"> Jinja
-            <img class="diamond" src="assets/images/diamond.ico"> Java
-            <img class="diamond" src="assets/images/diamond.ico"> C# in .NET Core
-            <img class="diamond" src="assets/images/diamond.ico"> HotChocolate
-            <img class="diamond" src="assets/images/diamond.ico"> React
-            <img class="diamond" src="assets/images/diamond.ico"> Flutter | Dart
-            <img class="diamond" src="assets/images/diamond.ico"> R
-            <img class="diamond" src="assets/images/diamond.ico"> SQL
-            <img class="diamond" src="assets/images/diamond.ico"> GraphQL
-            <img class="diamond" src="assets/images/diamond.ico"> HTML
-            <img class="diamond" src="assets/images/diamond.ico"> CSS
-            <img class="diamond" src="assets/images/diamond.ico"> Tailwind CSS
-            <img class="diamond" src="assets/images/diamond.ico"> JavaScript
-            <img class="diamond" src="assets/images/diamond.ico"> TypeScript
+        <p>
+          <span class="tag">Python</span>
+          <span class="tag">Flask</span>
+          <span class="tag">Jinja</span>
+          <span class="tag">Java</span>
+          <span class="tag">C# in .NET Core</span>
+          <span class="tag">Nodejs</span>
+          <span class="tag">HotChocolate</span>
+          <span class="tag">React</span>
+          <span class="tag">Flutter | Dart</span>
+          <span class="tag">R</span>
+          <span class="tag">SQL</span>
+          <span class="tag">GraphQL</span>
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">Tailwind CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">TypeScript</span>
         </p>
 
         <p><strong>Technologies & Tools:</strong></p>
         <p>
-            Figma
-            <img class="diamond" src="assets/images/diamond.ico"> AWS services: S3 | DynamoDB | Amplify | Cognito
-            <img class="diamond" src="assets/images/diamond.ico"> Docker
-            <img class="diamond" src="assets/images/diamond.ico"> Jira kanban (agile project management)
-            <img class="diamond" src="assets/images/diamond.ico"> LucidChart: UML | System Architecture & Algorithm flow diagrams
-            <img class="diamond" src="assets/images/diamond.ico"> Draw.io: Database design 
-            <img class="diamond" src="assets/images/diamond.ico"> Github
-            <img class="diamond" src="assets/images/diamond.ico"> Jenkins
+          <span class="tag">Figma</span>
+          <span class="tag">AWS (S3, DynamoDB, Amplify, Cognito)</span>
+          <span class="tag">Docker</span>
+          <span class="tag">Jira (Kanban Agile)</span>
+          <span class="tag">LucidChart (UML)</span>
+          <span class="tag">Draw.io (Database Design)</span>
+          <span class="tag">Github</span>
+          <span class="tag">Jenkins</span>
         </p>
-
       </section>
       <section>
         <p class="section-heading">CERTIFICATIONS</p>
         <hr />
-        
+
         <table class="certifications-table">
-            <tr>
-                <td><strong>MICROSOFT LEARN AI SKILLS CHALLENGE</strong></td>
-                <td class="date">Aug 2023</td>
-            </tr>
-            <tr>
-                <td colspan="2" class="cerificate">Machine Learning Challenge</td>
-            </tr>
+          <tr>
+            <td><strong>MICROSOFT LEARN AI SKILLS CHALLENGE</strong></td>
+            <td class="date">Aug 2023</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="cerificate">Machine Learning Challenge</td>
+          </tr>
 
-            <tr>
-                <td><strong>GOOGLE IT AUTOMATION WITH PYTHON</strong></td>
-                <td class="date">Sept 2021</td>
-            </tr>
-            <tr>
-                <td colspan="2" class="cerificate">Crash course on Python
-                    <img class="diamond" src="assets/images/diamond.ico"> Using Python to interact with the Operating System 
-                    <img class="diamond" src="assets/images/diamond.ico"> Introduction to Git and Github
-                    <img class="diamond" src="assets/images/diamond.ico"> Troubleshooting and debugging techniques 
-                    <img class="diamond" src="assets/images/diamond.ico"> Configuration Management and the Cloud
-                    <img class="diamond" src="assets/images/diamond.ico"> Automating Real-World tasks with Python
-                </td>
-            
-            </tr>
-            <tr>
-                <td>
-                    <strong>HTML, CSS & JavaScript</strong>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" class="cerificate">YouAccel Training (Udemy)</td>
-            </tr>
+          <tr>
+            <td><strong>GOOGLE IT AUTOMATION WITH PYTHON</strong></td>
+            <td class="date">Sept 2021</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="cerificate">
+              Crash course on Python
+              <img class="diamond" src="assets/images/diamond.ico" /> Using
+              Python to interact with the Operating System
+              <img class="diamond" src="assets/images/diamond.ico" />
+              Introduction to Git and Github
+              <img class="diamond" src="assets/images/diamond.ico" />
+              Troubleshooting and debugging techniques
+              <img class="diamond" src="assets/images/diamond.ico" />
+              Configuration Management and the Cloud
+              <img class="diamond" src="assets/images/diamond.ico" /> Automating
+              Real-World tasks with Python
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>HTML, CSS & JavaScript</strong>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="cerificate">YouAccel Training (Udemy)</td>
+          </tr>
         </table>
-
       </section>
       <section>
         <p class="section-heading">WORK EXPERIENCE</p>
         <hr />
 
-        <div id="timeline">
-        </div>
-        
+        <div id="timeline"></div>
       </section>
 
       <section>
         <p class="section-heading">VOLUNTEERING</p>
         <hr />
-        <p>
-            Library Team Leader
-            <img class="diamond" src="assets/images/diamond.ico">  
-            Peer Support member <img class="diamond" src="assets/images/diamond.ico"> 
-            Peer Mediation member <img class="diamond" src="assets/images/diamond.ico"> 
-            Fundraising <img class="diamond" src="assets/images/diamond.ico"> 
-            Relay for life <img class="diamond" src="assets/images/diamond.ico"> 
-            Interact (Heart Foundation) <img class="diamond" src="assets/images/diamond.ico"> 
-            Tutoring for NCEA L2 Calculus <img class="diamond" src="assets/images/diamond.ico"> 
-            <br/>
-            Participating in multiple studies, including: 
-            <ul>
-              <li class="studies">“Can a telehealth intervention increase mindfulness and reduce stress?”</li>
-              <li>“Investigating the role of the menstrual cycle in epilepsy”</li>
-              <li>“Covid-19 booster study – how well the inactivated Valneva Covid-19 vaccine works.”</li>
-            </ul>
-        </p>
+
+        Library Team Leader
+        <img class="diamond" src="assets/images/diamond.ico" />
+        Peer Support member
+        <img class="diamond" src="assets/images/diamond.ico" /> Peer Mediation
+        member
+        <img class="diamond" src="assets/images/diamond.ico" /> Fundraising
+        <img class="diamond" src="assets/images/diamond.ico" /> Relay for life
+        <img class="diamond" src="assets/images/diamond.ico" /> Interact (Heart
+        Foundation)
+        <img class="diamond" src="assets/images/diamond.ico" /> Tutoring for
+        NCEA L2 Calculus <img class="diamond" src="assets/images/diamond.ico" />
+        <br />
+        Participating in multiple studies, including:
+        <ul>
+          <li class="studies">
+            “Can a telehealth intervention increase mindfulness and reduce
+            stress?”
+          </li>
+          <li>“Investigating the role of the menstrual cycle in epilepsy”</li>
+          <li>
+            “Covid-19 booster study – how well the inactivated Valneva Covid-19
+            vaccine works.”
+          </li>
+        </ul>
       </section>
 
       <section class="last">
         <div class="spacing">
-            <p class="section-heading">LANGUAGES</p>
-          <hr/>
+          <p class="section-heading">LANGUAGES</p>
+          <hr />
 
           <div class="language">
-            <div > 
+            <div>
               <li>English</li>
               <li>Bangla</li>
               <li>Japanese</li>
               <li>HIndi</li>
             </div>
 
-            <div >
+            <div>
               ⚫⚫⚫⚫⚫
-              <br/>
+              <br />
               ⚫⚫⚫⚫⚪
-              <br/>
+              <br />
               ⚫⚫⚪⚪⚪
-              <br/>
+              <br />
               ⚫⚫⚪⚪⚪
             </div>
           </div>
         </div>
-      
+
         <div class="spacing">
           <p class="section-heading">INTERESTS</p>
-          <hr/>
+          <hr />
           <ul>
-            <li>Digital/ traditional illustration </li>
+            <li>Digital/ traditional illustration</li>
             <li>Ice Skating</li>
             <li>Travelling</li>
           </ul>
         </div>
-
       </section>
-      
     </article>
 
     <footer></footer>
