@@ -463,7 +463,7 @@ loginForm.addEventListener("submit", async (e) => {
       document.getElementById("signup").style.display = "none";
       document.getElementById("login").style.display = "none";
       document.getElementById("logout").style.display = "block";
-      awaitaddCommentsButtonIfAdmin();
+      await addCommentsButtonIfAdmin();
     }
   } catch (err) {
     error.innerHTML += `Error: ${err.message}`;
