@@ -7,15 +7,14 @@ const {
   updateComment,
   deleteComment,
   deleteAllComments,
+  getAllCommentsForAdmin,
 } = require("../controllers/commentController");
 const validateToken = require("../middleware/validateTokenHandler");
 const roleAuthorization = require("../middleware/roleAuthorization");
 
 router.use(validateToken);
-router
-  .route("/")
-  .get(roleAuthorization("admin"), getComments)
-  .post(createComment);
+router.route("/").post(createComment).get(getComments);
+router.route("/admin").get(roleAuthorization("admin"), getAllCommentsForAdmin);
 router.route("/all").delete(roleAuthorization("admin"), deleteAllComments);
 router
   .route("/:id")

@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Comment = require("../models/commentModel");
 
-//@desc Get all comments (only admins can)
+//@desc Get all comments
 //@route GET /api/comments
 //@access private
 const getComments = asyncHandler(async (req, res) => {
@@ -92,6 +92,14 @@ const deleteAllComments = asyncHandler(async (req, res) => {
   res.json({ message: `Deleted ${result.deletedCount} comments` });
 });
 
+//@desc Get all comments (Admin only)
+//@route GET /api/comments/admin
+//@access private
+const getAllCommentsForAdmin = asyncHandler(async (req, res) => {
+  const comments = await Comment.find().populate("user_id", "username email");
+  res.status(200).json(comments);
+});
+
 module.exports = {
   getComments,
   createComment,
@@ -99,4 +107,5 @@ module.exports = {
   getComment,
   deleteComment,
   deleteAllComments,
+  getAllCommentsForAdmin,
 };

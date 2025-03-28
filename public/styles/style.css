@@ -527,6 +527,9 @@ section {
   top: 50%;
   transform: translateY(-50%);
   font-size: 0.5em;
+  min-height: 3em;
+  display: flex;
+  align-items: center;
 }
 
 .auth-button {
@@ -905,4 +908,70 @@ input:checked + .slider:before {
 
 .tag:hover {
   background-color: #7d99b4;
+}
+
+/* Add these styles to your existing style.css */
+
+/* Comments Container */
+#all-comments-container {
+  font-family: "Poppins", serif;
+  font-size: 1em;
+  margin: 2em; /* Add margin to separate from other elements */
+}
+
+.comment-item {
+  margin-bottom: 1em;
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.comment-item h3 {
+  color: #95b2cf;
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+}
+
+.comment-date {
+  font-size: 0.8em;
+  color: #777;
+  margin-top: 0.5em;
+}
+
+.comment-item hr {
+  border: 0.1em solid #95b2cf;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+/* Dark Mode Specific Styles for Comments */
+body.dark-mode .comment-item {
+  background-color: #1e2a39;
+  color: white;
+  border-color: #555;
+  box-shadow: 0 4px 8px 0 rgba(95, 142, 190, 0.6);
+}
+
+body.dark-mode .comment-item hr {
+  border-color: #5f8ebe;
+}
+
+/* Responsive Adjustments for Comments (if needed) */
+@media (max-width: 768px) {
+  #all-comments-container {
+    margin: 1em; /* Adjust margin for smaller screens */
+  }
+
+  .comment-item {
+    padding: 0.8em; /* Adjust padding for smaller screens */
+  }
+}
+
+.section-comments {
+  display: none; /* Initially hide comments */
+}
+.section-toggle {
+  cursor: pointer;
+  font-weight: bold;
 }

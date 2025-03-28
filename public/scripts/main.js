@@ -388,6 +388,7 @@ document.getElementById("logout").addEventListener("click", () => {
   document.getElementById("login").style.display = "inline";
   document.getElementById("logout").style.display = "none";
   greeting.innerHTML = "";
+  addCommentsButtonIfAdmin();
 });
 
 const signupForm = document.getElementById("signupForm");
@@ -455,11 +456,96 @@ loginForm.addEventListener("submit", async (e) => {
       document.getElementById("signup").style.display = "none";
       document.getElementById("login").style.display = "none";
       document.getElementById("logout").style.display = "block";
+      await addCommentsButtonIfAdmin();
     }
   } catch (err) {
     error.innerHTML += `Error: ${err.message}`;
   }
 });
+
+async function getAllCommentsForAdmin() {
+  try {
+    let token =
+      localStorage.getItem("access-token") || (await refreshAccessToken());
+    console.log("Token for comments fetch:", token);
+
+    const response = await fetch("http://localhost:5001/api/comments/admin", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status === 401) {
+      console.log("401 error, refreshing token...");
+      token = await refreshAccessToken();
+      console.log("New token:", token);
+      response = await fetch("http://localhost:5001/api/comments/admin", {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      console.error(
+        `*Error fetching comments: ${response.status} - ${errorData}`
+      );
+    } else {
+      const comments = await response.json();
+      localStorage.setItem("all-comments", JSON.stringify(comments));
+      window.location.href = "/comments";
+    }
+  } catch (error) {
+    console.error("Error in getAllCommentsForAdmin:", error);
+  }
+}
+async function addCommentsButtonIfAdmin() {
+  const authButtons = document.querySelector(".auth-buttons");
+  const existingCommentsButton = document.getElementById("seeComments");
+
+  if (existingCommentsButton) {
+    authButtons.removeChild(existingCommentsButton);
+  }
+
+  try {
+    let token =
+      localStorage.getItem("access-token") || (await refreshAccessToken());
+
+    if (!token) return;
+
+    const url = "http://localhost:5001/api/users/current";
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+
+    if (data.role === "admin") {
+      const commentsButton = document.createElement("button");
+      commentsButton.id = "seeComments";
+      commentsButton.className = "auth-button";
+      commentsButton.textContent = "Feedbacks";
+      authButtons.appendChild(commentsButton);
+
+      commentsButton.addEventListener("click", async () => {
+        window.location.href = "/comments";
+        await getAllCommentsForAdmin();
+      });
+    }
+  } catch (err) {
+    console.error("Error checking user role:", err);
+  }
+}
 
 async function userGreeting(token) {
   const url = "http://localhost:5001/api/users/current";

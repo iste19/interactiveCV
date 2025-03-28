@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All Comments</title>
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <link href="styles/style.css" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alatsi&family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <header class="header-container">
+      <div class="logo-title">
+        <img id="logoImg" src="assets/favicon.ico" alt="iste logo" />
+        ISTEFAT SAWDA
+      </div>
+    </header>
+
+    <div class="toggles-container">
+      <div class="toggles">
+        <div class="toggle-message">Dark Mode</div>
+        <label class="switch">
+          <input type="checkbox" id="darkModeToggle" />
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+
+    <div id="all-comments-container" class="article">
+      <h1>All Comments</h1>
+    </div>
+
+    <script>
+      const comments = JSON.parse(localStorage.getItem("all-comments"));
+      const container = document.getElementById("all-comments-container");
+
+      if (comments && comments.length > 0) {
+        const commentsByUser = {};
+
+        comments.forEach((comment) => {
+          const username = comment.user_id.username;
+          if (!commentsByUser[username]) {
+            commentsByUser[username] = {};
+          }
+          if (!commentsByUser[username][comment.sectionHeading]) {
+            commentsByUser[username][comment.sectionHeading] = [];
+          }
+          commentsByUser[username][comment.sectionHeading].push(comment);
+        });
+
+        for (const username in commentsByUser) {
+          const userDiv = document.createElement("div");
+          userDiv.innerHTML = `<h2>User: ${username}</h2>`;
+          container.appendChild(userDiv);
+
+          for (const section in commentsByUser[username]) {
+            const sectionDiv = document.createElement("div");
+            sectionDiv.innerHTML = `
+                      <h3>
+                          <span class="section-toggle tag" data-section="${username}-${section}">
+                              ${section}
+                          </span>
+                      </h3>
+                  `;
+            container.appendChild(sectionDiv);
+
+            const sectionCommentsDiv = document.createElement("div");
+            sectionCommentsDiv.classList.add("section-comments");
+            sectionCommentsDiv.id = `comments-${username}-${section}`;
+
+            commentsByUser[username][section].forEach((comment) => {
+              const commentDiv = document.createElement("div");
+              commentDiv.classList.add("comment-item");
+              commentDiv.innerHTML = `
+                          <p>${comment.comment}</p>
+                          <p class="comment-date">Posted: ${new Date(
+                            comment.updatedAt
+                          ).toLocaleString()}</p>
+                          <hr>
+                      `;
+              sectionCommentsDiv.appendChild(commentDiv);
+            });
+
+            container.appendChild(sectionCommentsDiv);
+          }
+        }
+      } else {
+        container.innerHTML = "<p>No comments found.</p>";
+      }
+
+      container.addEventListener("click", (event) => {
+        const toggle = event.target.closest(".section-toggle");
+        if (toggle) {
+          const sectionId = `comments-${toggle.dataset.section}`;
+          const sectionComments = document.getElementById(sectionId);
+          if (sectionComments) {
+            sectionComments.style.display =
+              sectionComments.style.display === "none" ? "block" : "none";
+          }
+        }
+      });
+
+      const darkModeToggle = document.getElementById("darkModeToggle");
+      if (darkModeToggle) {
+        darkModeToggle.addEventListener("change", () => {
+          document.body.classList.toggle("dark-mode");
+        });
+      }
+    </script>
+  </body>
+</html>
