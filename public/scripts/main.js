@@ -54,7 +54,14 @@ feedbackToggle.addEventListener("change", async () => {
     : document.body.classList.remove("feedback-mode");
 });
 
-const commentsUrl = "http://localhost:5001/api/comments/";
+let apiBaseUrl;
+
+if (window.location.hostname === "localhost") {
+  apiBaseUrl = "http://localhost:5001";
+} else {
+  apiBaseUrl = "https://interactivecv.istefatsawda.com";
+}
+const commentsUrl = `${apiBaseUrl}/api/comments/`;
 
 async function viewPrevComments() {
   try {
@@ -395,7 +402,7 @@ const signupForm = document.getElementById("signupForm");
 signupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const url = "http://localhost:5001/api/users/register";
+  const url = `${apiBaseUrl}/api/users/register`;
 
   const error = document.getElementById("errorSignup");
   error.innerHTML = "";
@@ -429,7 +436,7 @@ const loginForm = document.getElementById("loginForm");
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const url = "http://localhost:5001/api/users/login";
+  const url = `${apiBaseUrl}/api/users/login`;
 
   const error = document.getElementById("errorLogin");
   error.innerHTML = "";
@@ -456,7 +463,7 @@ loginForm.addEventListener("submit", async (e) => {
       document.getElementById("signup").style.display = "none";
       document.getElementById("login").style.display = "none";
       document.getElementById("logout").style.display = "block";
-      await addCommentsButtonIfAdmin();
+      awaitaddCommentsButtonIfAdmin();
     }
   } catch (err) {
     error.innerHTML += `Error: ${err.message}`;
@@ -469,7 +476,7 @@ async function getAllCommentsForAdmin() {
       localStorage.getItem("access-token") || (await refreshAccessToken());
     console.log("Token for comments fetch:", token);
 
-    const response = await fetch("http://localhost:5001/api/comments/admin", {
+    const response = await fetch(`${apiBaseUrl}/api/comments/admin`, {
       method: "GET",
       headers: {
         "Content-type": "application/json",
@@ -481,7 +488,7 @@ async function getAllCommentsForAdmin() {
       console.log("401 error, refreshing token...");
       token = await refreshAccessToken();
       console.log("New token:", token);
-      response = await fetch("http://localhost:5001/api/comments/admin", {
+      response = await fetch(`${apiBaseUrl}/api/comments/admin`, {
         method: "GET",
         headers: {
           "Content-type": "application/json",
@@ -518,7 +525,7 @@ async function addCommentsButtonIfAdmin() {
 
     if (!token) return;
 
-    const url = "http://localhost:5001/api/users/current";
+    const url = `${apiBaseUrl}/api/users/current`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -548,7 +555,8 @@ async function addCommentsButtonIfAdmin() {
 }
 
 async function userGreeting(token) {
-  const url = "http://localhost:5001/api/users/current";
+  const url = `${apiBaseUrl}/api/users/current`;
+
   try {
     const response = await fetch(url, {
       method: "GET",
@@ -570,7 +578,7 @@ async function userGreeting(token) {
 
 async function refreshAccessToken() {
   try {
-    const response = await fetch("http://localhost:5001/api/users/refresh", {
+    const response = await fetch(`${apiBaseUrl}/api/users/refresh`, {
       method: "POST",
       credentials: "same-origin", // Ensures cookies are sent with the request
     });
