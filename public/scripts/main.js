@@ -48,11 +48,19 @@ feedbackToggle.addEventListener("change", async () => {
     return;
   }
 
-  viewPrevComments();
-  feedbackToggle.checked
-    ? document.body.classList.add("feedback-mode")
-    : document.body.classList.remove("feedback-mode");
+  if (feedbackToggle.checked) {
+    document.body.classList.add("feedback-mode");
+    viewPrevComments();
+  } else {
+    document.body.classList.remove("feedback-mode");
+    removePins();
+  }
 });
+
+function removePins() {
+  const pins = document.querySelectorAll(".feedback-container");
+  pins.forEach((pin) => pin.remove());
+}
 
 let apiBaseUrl;
 
@@ -153,7 +161,9 @@ document.body.addEventListener("click", (event) => {
   let extraInfo = "";
   let sectionHeading = "No Heading";
 
-  if (target.closest("#contacts-container")) {
+  if (target.closest("#projectDetailModal")) {
+    sectionHeading = "Project Detail Modal";
+  } else if (target.closest("#contacts-container")) {
     sectionHeading = "Contact Info";
   }
   //cant click on these elements
@@ -162,6 +172,8 @@ document.body.addEventListener("click", (event) => {
     target.closest(".toggles switch") ||
     target.closest(".timeline-content:hover") ||
     target.closest(".close") ||
+    target.closest(".contact-item") ||
+    target.closest(".projectDetailBut") ||
     target.closest(".auth-buttons") ||
     (!target.closest("section") &&
       !target.closest(".header-container") &&
@@ -230,7 +242,6 @@ document.body.addEventListener("click", (event) => {
     extraInfo += ` (Project Index: ${targetElement.dataset.projectIndex})`;
   }
 
-  // Capture other data attributes
   for (const attr of targetElement.attributes) {
     if (attr.name.startsWith("data-")) {
       extraInfo += ` (${attr.name}:${attr.value})`;
@@ -729,8 +740,9 @@ detailButtons.forEach((button) => {
   });
 });
 
-closeModalButton.addEventListener("click", () => {
+closeModalButton.addEventListener("click", (event) => {
   modal.style.display = "none";
+  event.stopPropagation();
 });
 
 window.addEventListener("click", (event) => {
