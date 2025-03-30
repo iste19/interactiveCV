@@ -65,7 +65,7 @@ const updateComment = asyncHandler(async (req, res) => {
   res.status(200).json(updatedComment);
 });
 
-//@desc Delete comment (only admins can for now in frontend)
+//@desc Delete comment
 //@route DELETE /api/comments/:id
 //@access private
 const deleteComment = asyncHandler(async (req, res) => {

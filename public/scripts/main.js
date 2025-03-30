@@ -150,15 +150,12 @@ async function viewPrevComments(url = commentsUrl, admin = false) {
         commentModal.style.top = "25px";
 
         let userDeets = "";
-        let deleteButton = "";
-        if (admin) {
-          userDeets = `<p><strong>User:</strong> ${oldComment.user_id.username} (${oldComment.user_id.email})</p>`;
-          deleteButton = `
-            <div class="delete-button-wrapper">
-              <button id="deleteButton-${oldComment._id}" type="submit">Delete</button>
-            </div>
-          `;
-        }
+        let editDeleteButtons = `
+                <div class="delete-button-wrapper">
+                    <button id="editButton-${oldComment._id}" type="submit">Edit</button>
+                    <button id="deleteButton-${oldComment._id}" type="submit">Delete</button>
+                </div>
+            `;
 
         commentModal.innerHTML = `
           ${userDeets}
@@ -173,7 +170,7 @@ async function viewPrevComments(url = commentsUrl, admin = false) {
       </p>
       <p><strong>Section:</strong> ${oldComment.sectionHeading}</p>
       <p><strong>Comment:</strong> ${oldComment.comment}</p>
-      ${deleteButton}
+      ${editDeleteButtons}
     `;
 
         commentModal.style.display = "none";
