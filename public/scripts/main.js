@@ -39,6 +39,43 @@ toggle.addEventListener("change", () => {
   }
 });
 
+async function isAdmin() {
+  try {
+    let token =
+      localStorage.getItem("access-token") || (await refreshAccessToken());
+
+    if (!token) return;
+
+    const url = `${apiBaseUrl}/api/users/current`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+
+    if (data.role === "admin") {
+      return true;
+    }
+    return false;
+  } catch (err) {
+    console.error("Error checking user role:", err);
+    return false;
+  }
+}
+
+let apiBaseUrl;
+
+if (window.location.hostname === "localhost") {
+  apiBaseUrl = "http://localhost:5001";
+} else {
+  apiBaseUrl = "https://interactivecv.istefatsawda.com";
+}
+
 const feedbackToggle = document.getElementById("feedbackModeToggle");
 
 feedbackToggle.addEventListener("change", async () => {
@@ -50,7 +87,9 @@ feedbackToggle.addEventListener("change", async () => {
 
   if (feedbackToggle.checked) {
     document.body.classList.add("feedback-mode");
-    viewPrevComments();
+    (await isAdmin())
+      ? viewPrevComments(`${apiBaseUrl}/api/comments/admin`, true)
+      : viewPrevComments();
   } else {
     document.body.classList.remove("feedback-mode");
     removePins();
@@ -62,21 +101,14 @@ function removePins() {
   pins.forEach((pin) => pin.remove());
 }
 
-let apiBaseUrl;
-
-if (window.location.hostname === "localhost") {
-  apiBaseUrl = "http://localhost:5001";
-} else {
-  apiBaseUrl = "https://interactivecv.istefatsawda.com";
-}
 const commentsUrl = `${apiBaseUrl}/api/comments/`;
 
-async function viewPrevComments() {
+async function viewPrevComments(url = commentsUrl, admin = false) {
   try {
     let token =
       localStorage.getItem("access-token") || (await refreshAccessToken());
 
-    let response = await fetch(commentsUrl, {
+    let response = await fetch(url, {
       method: "GET",
       headers: {
         "Content-type": "application/json",
@@ -87,7 +119,7 @@ async function viewPrevComments() {
     if (response.status === 401) {
       token = await refreshAccessToken();
 
-      response = await fetch(commentsUrl, {
+      response = await fetch(url, {
         method: "GET",
         headers: {
           "Content-type": "application/json",
@@ -117,8 +149,14 @@ async function viewPrevComments() {
         commentModal.style.left = "0px";
         commentModal.style.top = "25px";
 
+        let userDeets = "";
+        if (admin) {
+          userDeets = `<p><strong>User:</strong> ${oldComment.user_id.username} (${oldComment.user_id.email})</p>`;
+        }
+
         commentModal.innerHTML = `
-          <p>Last modified:
+          ${userDeets}
+          <p><strong>Last modified:</strong>
         ${
           oldComment.updatedAt
             ? new Date(oldComment.updatedAt).toLocaleString("en-NZ", {
@@ -127,8 +165,8 @@ async function viewPrevComments() {
             : "Date not available"
         }
       </p>
-      <p>Section: ${oldComment.sectionHeading}</p>
-      <p>Comment: ${oldComment.comment}</p>
+      <p><strong>Section:</strong> ${oldComment.sectionHeading}</p>
+      <p><strong>Comment:</strong> ${oldComment.comment}</p>
     `;
 
         commentModal.style.display = "none";
@@ -485,7 +523,6 @@ async function getAllCommentsForAdmin() {
   try {
     let token =
       localStorage.getItem("access-token") || (await refreshAccessToken());
-    console.log("Token for comments fetch:", token);
 
     const response = await fetch(`${apiBaseUrl}/api/comments/admin`, {
       method: "GET",
@@ -496,9 +533,7 @@ async function getAllCommentsForAdmin() {
     });
 
     if (response.status === 401) {
-      console.log("401 error, refreshing token...");
       token = await refreshAccessToken();
-      console.log("New token:", token);
       response = await fetch(`${apiBaseUrl}/api/comments/admin`, {
         method: "GET",
         headers: {
@@ -508,13 +543,11 @@ async function getAllCommentsForAdmin() {
       });
     }
 
+    const comments = await response.json();
+
     if (!response.ok) {
-      const errorData = await response.text();
-      console.error(
-        `*Error fetching comments: ${response.status} - ${errorData}`
-      );
+      console.log(`*Error: ${data.message}`);
     } else {
-      const comments = await response.json();
       localStorage.setItem("all-comments", JSON.stringify(comments));
       window.location.href = "/comments";
     }
@@ -531,24 +564,7 @@ async function addCommentsButtonIfAdmin() {
   }
 
   try {
-    let token =
-      localStorage.getItem("access-token") || (await refreshAccessToken());
-
-    if (!token) return;
-
-    const url = `${apiBaseUrl}/api/users/current`;
-
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const data = await response.json();
-
-    if (data.role === "admin") {
+    if (await isAdmin()) {
       const commentsButton = document.createElement("button");
       commentsButton.id = "seeComments";
       commentsButton.className = "auth-button";
@@ -556,8 +572,8 @@ async function addCommentsButtonIfAdmin() {
       authButtons.appendChild(commentsButton);
 
       commentsButton.addEventListener("click", async () => {
-        window.location.href = "/comments";
         await getAllCommentsForAdmin();
+        window.location.href = "/comments";
       });
     }
   } catch (err) {
