@@ -160,17 +160,17 @@ async function viewPrevComments(url = commentsUrl, admin = false) {
         commentModal.innerHTML = `
           ${userDeets}
           <p><strong>Last modified:</strong>
-        ${
-          oldComment.updatedAt
-            ? new Date(oldComment.updatedAt).toLocaleString("en-NZ", {
-                timeZone: "Pacific/Auckland",
-              })
-            : "Date not available"
-        }
-      </p>
-      <p><strong>Section:</strong> ${oldComment.sectionHeading}</p>
-      <p><strong>Comment:</strong> ${oldComment.comment}</p>
-      ${editDeleteButtons}
+          ${
+            oldComment.updatedAt
+              ? new Date(oldComment.updatedAt).toLocaleString("en-NZ", {
+                  timeZone: "Pacific/Auckland",
+                })
+              : "Date not available"
+          }
+          </p>
+          <p><strong>Section:</strong> ${oldComment.sectionHeading}</p>
+          <p><strong>Comment:</strong> ${oldComment.comment}</p>
+          ${editDeleteButtons}
     `;
 
         commentModal.style.display = "none";
@@ -194,10 +194,83 @@ async function viewPrevComments(url = commentsUrl, admin = false) {
             e.preventDefault();
             deleteComment(oldComment._id, feedbackContainer);
           });
+
+        commentModal
+          .querySelector(`#editButton-${oldComment._id}`)
+          ?.addEventListener("click", (e) => {
+            e.preventDefault();
+            editComment(
+              oldComment._id,
+              oldComment.comment,
+              feedbackContainer,
+              oldComment
+            );
+          });
       });
     }
   } catch (err) {
     console.log(err);
+  }
+}
+
+async function editComment(
+  commentId,
+  commentText,
+  feedbackContainer,
+  oldComment
+) {
+  const commentModal = feedbackContainer.querySelector(".comment-modal");
+
+  const newComment = prompt("Edit your comment:", commentText);
+  if (newComment !== null) {
+    try {
+      let token =
+        localStorage.getItem("access-token") || (await refreshAccessToken());
+      const url = `${commentsUrl}${commentId}`;
+
+      let response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          comment: newComment,
+          sectionHeading: oldComment.sectionHeading,
+          position: oldComment.position,
+          extraInfo: oldComment.extraInfo,
+        }),
+      });
+
+      if (response.status === 401) {
+        token = await refreshAccessToken();
+        response = await fetch(url, {
+          method: "PUT",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            comment: newComment,
+            sectionHeading: oldComment.sectionHeading,
+            position: oldComment.position,
+            extraInfo: oldComment.extraInfo,
+          }),
+        });
+      }
+
+      if (response.ok) {
+        commentModal.querySelector(
+          "p:last-of-type"
+        ).textContent = `Comment: ${newComment}`;
+      } else {
+        const data = await response.json();
+        alert(`Error editing comment: ${data.message}`);
+      }
+    } catch (err) {
+      console.error("Error editing comment:", err);
+      alert("An error occurred while editing the comment.");
+    }
   }
 }
 
