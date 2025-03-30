@@ -150,6 +150,9 @@ async function viewPrevComments(url = commentsUrl, admin = false) {
         commentModal.style.top = "25px";
 
         let userDeets = "";
+        if (admin) {
+          userDeets = `<p><strong>User:</strong> ${oldComment.user_id.username} (${oldComment.user_id.email})</p>`;
+        }
         let editDeleteButtons = `
                 <div class="delete-button-wrapper">
                     <button id="editButton-${oldComment._id}" type="submit">Edit</button>
