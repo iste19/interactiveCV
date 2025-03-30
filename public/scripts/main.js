@@ -39,6 +39,43 @@ toggle.addEventListener("change", () => {
   }
 });
 
+async function isAdmin() {
+  try {
+    let token =
+      localStorage.getItem("access-token") || (await refreshAccessToken());
+
+    if (!token) return;
+
+    const url = `${apiBaseUrl}/api/users/current`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+
+    if (data.role === "admin") {
+      return true;
+    }
+    return false;
+  } catch (err) {
+    console.error("Error checking user role:", err);
+    return false;
+  }
+}
+
+let apiBaseUrl;
+
+if (window.location.hostname === "localhost") {
+  apiBaseUrl = "http://localhost:5001";
+} else {
+  apiBaseUrl = "https://interactivecv.istefatsawda.com";
+}
+
 const feedbackToggle = document.getElementById("feedbackModeToggle");
 
 feedbackToggle.addEventListener("change", async () => {
@@ -48,27 +85,30 @@ feedbackToggle.addEventListener("change", async () => {
     return;
   }
 
-  viewPrevComments();
-  feedbackToggle.checked
-    ? document.body.classList.add("feedback-mode")
-    : document.body.classList.remove("feedback-mode");
+  if (feedbackToggle.checked) {
+    document.body.classList.add("feedback-mode");
+    (await isAdmin())
+      ? viewPrevComments(`${apiBaseUrl}/api/comments/admin`, true)
+      : viewPrevComments();
+  } else {
+    document.body.classList.remove("feedback-mode");
+    removePins();
+  }
 });
 
-let apiBaseUrl;
-
-if (window.location.hostname === "localhost") {
-  apiBaseUrl = "http://localhost:5001";
-} else {
-  apiBaseUrl = "https://interactivecv.istefatsawda.com";
+function removePins() {
+  const pins = document.querySelectorAll(".feedback-container");
+  pins.forEach((pin) => pin.remove());
 }
+
 const commentsUrl = `${apiBaseUrl}/api/comments/`;
 
-async function viewPrevComments() {
+async function viewPrevComments(url = commentsUrl, admin = false) {
   try {
     let token =
       localStorage.getItem("access-token") || (await refreshAccessToken());
 
-    let response = await fetch(commentsUrl, {
+    let response = await fetch(url, {
       method: "GET",
       headers: {
         "Content-type": "application/json",
@@ -79,7 +119,7 @@ async function viewPrevComments() {
     if (response.status === 401) {
       token = await refreshAccessToken();
 
-      response = await fetch(commentsUrl, {
+      response = await fetch(url, {
         method: "GET",
         headers: {
           "Content-type": "application/json",
@@ -109,18 +149,28 @@ async function viewPrevComments() {
         commentModal.style.left = "0px";
         commentModal.style.top = "25px";
 
+        let userDeets = "";
+        let editDeleteButtons = `
+                <div class="delete-button-wrapper">
+                    <button id="editButton-${oldComment._id}" type="submit">Edit</button>
+                    <button id="deleteButton-${oldComment._id}" type="submit">Delete</button>
+                </div>
+            `;
+
         commentModal.innerHTML = `
-          <p>Last modified:
-        ${
-          oldComment.updatedAt
-            ? new Date(oldComment.updatedAt).toLocaleString("en-NZ", {
-                timeZone: "Pacific/Auckland",
-              })
-            : "Date not available"
-        }
-      </p>
-      <p>Section: ${oldComment.sectionHeading}</p>
-      <p>Comment: ${oldComment.comment}</p>
+          ${userDeets}
+          <p><strong>Last modified:</strong>
+          ${
+            oldComment.updatedAt
+              ? new Date(oldComment.updatedAt).toLocaleString("en-NZ", {
+                  timeZone: "Pacific/Auckland",
+                })
+              : "Date not available"
+          }
+          </p>
+          <p><strong>Section:</strong> ${oldComment.sectionHeading}</p>
+          <p><strong>Comment:</strong> ${oldComment.comment}</p>
+          ${editDeleteButtons}
     `;
 
         commentModal.style.display = "none";
@@ -137,10 +187,129 @@ async function viewPrevComments() {
         feedbackContainer.addEventListener("mouseleave", () => {
           commentModal.style.display = "none";
         });
+
+        commentModal
+          .querySelector(`#deleteButton-${oldComment._id}`)
+          ?.addEventListener("click", (e) => {
+            e.preventDefault();
+            deleteComment(oldComment._id, feedbackContainer);
+          });
+
+        commentModal
+          .querySelector(`#editButton-${oldComment._id}`)
+          ?.addEventListener("click", (e) => {
+            e.preventDefault();
+            editComment(
+              oldComment._id,
+              oldComment.comment,
+              feedbackContainer,
+              oldComment
+            );
+          });
       });
     }
   } catch (err) {
     console.log(err);
+  }
+}
+
+async function editComment(
+  commentId,
+  commentText,
+  feedbackContainer,
+  oldComment
+) {
+  const commentModal = feedbackContainer.querySelector(".comment-modal");
+
+  const newComment = prompt("Edit your comment:", commentText);
+  if (newComment !== null) {
+    try {
+      let token =
+        localStorage.getItem("access-token") || (await refreshAccessToken());
+      const url = `${commentsUrl}${commentId}`;
+
+      let response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          comment: newComment,
+          sectionHeading: oldComment.sectionHeading,
+          position: oldComment.position,
+          extraInfo: oldComment.extraInfo,
+        }),
+      });
+
+      if (response.status === 401) {
+        token = await refreshAccessToken();
+        response = await fetch(url, {
+          method: "PUT",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            comment: newComment,
+            sectionHeading: oldComment.sectionHeading,
+            position: oldComment.position,
+            extraInfo: oldComment.extraInfo,
+          }),
+        });
+      }
+
+      if (response.ok) {
+        commentModal.querySelector(
+          "p:last-of-type"
+        ).textContent = `Comment: ${newComment}`;
+      } else {
+        const data = await response.json();
+        alert(`Error editing comment: ${data.message}`);
+      }
+    } catch (err) {
+      console.error("Error editing comment:", err);
+      alert("An error occurred while editing the comment.");
+    }
+  }
+}
+
+async function deleteComment(commentId, feedbackContainer) {
+  if (window.confirm("Are you sure you want to delete this comment?")) {
+    try {
+      let token =
+        localStorage.getItem("access-token") || (await refreshAccessToken());
+      const url = `${commentsUrl}${commentId}`;
+
+      let response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 401) {
+        token = await refreshAccessToken();
+        response = await fetch(url, {
+          method: "DELETE",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      }
+
+      if (response.ok) {
+        feedbackContainer.remove();
+      } else {
+        const data = await response.json();
+        alert(`Error deleting comment: ${data.message}`);
+      }
+    } catch (err) {
+      console.error("Error deleting comment:", err);
+      alert("An error occurred while deleting the comment.");
+    }
   }
 }
 
@@ -153,7 +322,9 @@ document.body.addEventListener("click", (event) => {
   let extraInfo = "";
   let sectionHeading = "No Heading";
 
-  if (target.closest("#contacts-container")) {
+  if (target.closest("#projectDetailModal")) {
+    sectionHeading = "Project Detail Modal";
+  } else if (target.closest("#contacts-container")) {
     sectionHeading = "Contact Info";
   }
   //cant click on these elements
@@ -162,7 +333,10 @@ document.body.addEventListener("click", (event) => {
     target.closest(".toggles switch") ||
     target.closest(".timeline-content:hover") ||
     target.closest(".close") ||
+    target.closest(".contact-item") ||
+    target.closest(".projectDetailBut") ||
     target.closest(".auth-buttons") ||
+    target.closest(".slider-nav") ||
     (!target.closest("section") &&
       !target.closest(".header-container") &&
       !target.closest(".toggle-message"))
@@ -230,7 +404,6 @@ document.body.addEventListener("click", (event) => {
     extraInfo += ` (Project Index: ${targetElement.dataset.projectIndex})`;
   }
 
-  // Capture other data attributes
   for (const attr of targetElement.attributes) {
     if (attr.name.startsWith("data-")) {
       extraInfo += ` (${attr.name}:${attr.value})`;
@@ -474,7 +647,6 @@ async function getAllCommentsForAdmin() {
   try {
     let token =
       localStorage.getItem("access-token") || (await refreshAccessToken());
-    console.log("Token for comments fetch:", token);
 
     const response = await fetch(`${apiBaseUrl}/api/comments/admin`, {
       method: "GET",
@@ -485,9 +657,7 @@ async function getAllCommentsForAdmin() {
     });
 
     if (response.status === 401) {
-      console.log("401 error, refreshing token...");
       token = await refreshAccessToken();
-      console.log("New token:", token);
       response = await fetch(`${apiBaseUrl}/api/comments/admin`, {
         method: "GET",
         headers: {
@@ -497,13 +667,11 @@ async function getAllCommentsForAdmin() {
       });
     }
 
+    const comments = await response.json();
+
     if (!response.ok) {
-      const errorData = await response.text();
-      console.error(
-        `*Error fetching comments: ${response.status} - ${errorData}`
-      );
+      console.log(`*Error: ${data.message}`);
     } else {
-      const comments = await response.json();
       localStorage.setItem("all-comments", JSON.stringify(comments));
       window.location.href = "/comments";
     }
@@ -520,24 +688,7 @@ async function addCommentsButtonIfAdmin() {
   }
 
   try {
-    let token =
-      localStorage.getItem("access-token") || (await refreshAccessToken());
-
-    if (!token) return;
-
-    const url = `${apiBaseUrl}/api/users/current`;
-
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const data = await response.json();
-
-    if (data.role === "admin") {
+    if (await isAdmin()) {
       const commentsButton = document.createElement("button");
       commentsButton.id = "seeComments";
       commentsButton.className = "auth-button";
@@ -545,8 +696,8 @@ async function addCommentsButtonIfAdmin() {
       authButtons.appendChild(commentsButton);
 
       commentsButton.addEventListener("click", async () => {
-        window.location.href = "/comments";
         await getAllCommentsForAdmin();
+        window.location.href = "/comments";
       });
     }
   } catch (err) {
@@ -580,7 +731,7 @@ async function refreshAccessToken() {
   try {
     const response = await fetch(`${apiBaseUrl}/api/users/refresh`, {
       method: "POST",
-      credentials: "same-origin", // Ensures cookies are sent with the request
+      credentials: "same-origin",
     });
 
     const data = await response.json();
@@ -590,7 +741,7 @@ async function refreshAccessToken() {
     } else {
       console.log("Refresh token expired or invalid.");
       localStorage.removeItem("access-token");
-      window.location.reload(); // Redirect to login or show login form
+      window.location.reload();
     }
   } catch (err) {
     console.error("Failed to refresh access token:", err);
@@ -729,8 +880,9 @@ detailButtons.forEach((button) => {
   });
 });
 
-closeModalButton.addEventListener("click", () => {
+closeModalButton.addEventListener("click", (event) => {
   modal.style.display = "none";
+  event.stopPropagation();
 });
 
 window.addEventListener("click", (event) => {

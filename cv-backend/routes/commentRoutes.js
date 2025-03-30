@@ -16,10 +16,6 @@ router.use(validateToken);
 router.route("/").post(createComment).get(getComments);
 router.route("/admin").get(roleAuthorization("admin"), getAllCommentsForAdmin);
 router.route("/all").delete(roleAuthorization("admin"), deleteAllComments);
-router
-  .route("/:id")
-  .get(getComment)
-  .put(updateComment)
-  .delete(roleAuthorization("admin"), deleteComment);
+router.route("/:id").get(getComment).put(updateComment).delete(deleteComment);
 
 module.exports = router;
