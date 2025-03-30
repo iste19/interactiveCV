@@ -65,7 +65,7 @@ const updateComment = asyncHandler(async (req, res) => {
   res.status(200).json(updatedComment);
 });
 
-//@desc Delete comment (only admins can)
+//@desc Delete comment (only admins can for now in frontend)
 //@route DELETE /api/comments/:id
 //@access private
 const deleteComment = asyncHandler(async (req, res) => {
@@ -75,7 +75,7 @@ const deleteComment = asyncHandler(async (req, res) => {
     throw new Error("Comment not found");
   }
 
-  if (comment.user_id.toString() !== req.user.id) {
+  if (req.user.role !== "admin" && comment.user_id.toString() !== req.user.id) {
     res.status(403);
     throw new Error("User don't have permission to delete other user comments");
   }

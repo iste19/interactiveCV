@@ -150,8 +150,14 @@ async function viewPrevComments(url = commentsUrl, admin = false) {
         commentModal.style.top = "25px";
 
         let userDeets = "";
+        let deleteButton = "";
         if (admin) {
           userDeets = `<p><strong>User:</strong> ${oldComment.user_id.username} (${oldComment.user_id.email})</p>`;
+          deleteButton = `
+            <div class="delete-button-wrapper">
+              <button id="deleteButton-${oldComment._id}" type="submit">Delete</button>
+            </div>
+          `;
         }
 
         commentModal.innerHTML = `
@@ -167,6 +173,7 @@ async function viewPrevComments(url = commentsUrl, admin = false) {
       </p>
       <p><strong>Section:</strong> ${oldComment.sectionHeading}</p>
       <p><strong>Comment:</strong> ${oldComment.comment}</p>
+      ${deleteButton}
     `;
 
         commentModal.style.display = "none";
@@ -183,10 +190,56 @@ async function viewPrevComments(url = commentsUrl, admin = false) {
         feedbackContainer.addEventListener("mouseleave", () => {
           commentModal.style.display = "none";
         });
+
+        commentModal
+          .querySelector(`#deleteButton-${oldComment._id}`)
+          ?.addEventListener("click", (e) => {
+            e.preventDefault();
+            deleteComment(oldComment._id, feedbackContainer);
+          });
       });
     }
   } catch (err) {
     console.log(err);
+  }
+}
+
+async function deleteComment(commentId, feedbackContainer) {
+  if (window.confirm("Are you sure you want to delete this comment?")) {
+    try {
+      let token =
+        localStorage.getItem("access-token") || (await refreshAccessToken());
+      const url = `${commentsUrl}${commentId}`;
+
+      let response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 401) {
+        token = await refreshAccessToken();
+        response = await fetch(url, {
+          method: "DELETE",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      }
+
+      if (response.ok) {
+        feedbackContainer.remove();
+      } else {
+        const data = await response.json();
+        alert(`Error deleting comment: ${data.message}`);
+      }
+    } catch (err) {
+      console.error("Error deleting comment:", err);
+      alert("An error occurred while deleting the comment.");
+    }
   }
 }
 
@@ -213,6 +266,7 @@ document.body.addEventListener("click", (event) => {
     target.closest(".contact-item") ||
     target.closest(".projectDetailBut") ||
     target.closest(".auth-buttons") ||
+    target.closest(".slider-nav") ||
     (!target.closest("section") &&
       !target.closest(".header-container") &&
       !target.closest(".toggle-message"))
@@ -607,7 +661,7 @@ async function refreshAccessToken() {
   try {
     const response = await fetch(`${apiBaseUrl}/api/users/refresh`, {
       method: "POST",
-      credentials: "same-origin", // Ensures cookies are sent with the request
+      credentials: "same-origin",
     });
 
     const data = await response.json();
@@ -617,7 +671,7 @@ async function refreshAccessToken() {
     } else {
       console.log("Refresh token expired or invalid.");
       localStorage.removeItem("access-token");
-      window.location.reload(); // Redirect to login or show login form
+      window.location.reload();
     }
   } catch (err) {
     console.error("Failed to refresh access token:", err);
