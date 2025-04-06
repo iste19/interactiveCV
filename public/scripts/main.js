@@ -777,23 +777,6 @@ const modalSliderContent = document.getElementById("modalSliderContent");
 const modalDetails = document.getElementById("modalProjectDetails");
 const modalVideo = document.getElementById("modalProjectVideo");
 const closeModalButton = document.querySelector(".close");
-const mainSlider = document.getElementById("slider");
-
-if (mainSlider) {
-  mainSlider
-    .querySelector(".slider-container")
-    .addEventListener("scroll", () => {
-      const container = mainSlider.querySelector(".slider-container");
-      const lastSlide = container.lastElementChild;
-
-      if (lastSlide.classList.contains("slide-visible")) {
-        setTimeout(() => {
-          container.scroll({ left: 0, behavior: "smooth" });
-        }, 1200);
-      }
-    });
-}
-
 const detailButtons = document.querySelectorAll(".projectDetailBut");
 
 function initializeModalSlider(modalElement, images) {
@@ -893,6 +876,7 @@ window.addEventListener("click", (event) => {
     modal.style.display = "none";
   }
 });
+
 // --------------------- timeline --------------------- //
 
 const timeline = document.getElementById("timeline");

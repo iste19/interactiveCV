@@ -8,7 +8,6 @@ const timelineData = [
       jobDescription: [
         "Worked on an experimental full-stack project to explore whether the company should move from GraphQL schema stitching to schema federation with HotChocolate and C# (.NET).",
         "Helped design the front end using Figma and built it with React, TypeScript, and Tailwind CSS.",
-        " Implemented Auth0 for user authentication and used JWT tokens to manage authorization and permissions.",
         "Implemented Auth0 for user authentication and used JWT tokens to manage authorization and permissions.",
         "Helped with containerizing images using Docker and supported deployments to AWS, where I gained exposure to Terraform.",
         "Used Jenkins for CI/CD and managed the project with Jira, Git, and GitHub.",

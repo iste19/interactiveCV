@@ -1,9 +1,21 @@
 const projectDetailData = [
   {
     title: "GraphQL Schema Federation Exploration",
-    details: `<ul>
+    details: `
+            <em> Pushpay – Full-Stack 7-person project </em>
+            <ul>
                 <li>
-                    <strong>Tech utilised:</strong> React, TypeScript, Tailwind CSS, GraphQL, Auth0, Docker, AWS, Terraform, Jenkins, Jira, Git, Github
+                    <strong>Tech Stack:</strong> React, TypeScript, Tailwind CSS, GraphQL, Auth0, Docker, AWS, Terraform, Jenkins, Jira, Git, Github
+               </li>
+               <li>Contributed to exploring the transition from GraphQL schema stitching to schema federation, improving API scalability and maintainability
+               </li>
+               <li>Developed front-end features with React, TypeScript, and Tailwind CSS, integrating with the federated GraphQL backend.
+               </li>
+               <li>Implemented Auth0 for user authentication and used JWT tokens to manage authorization and permissions.
+               </li>
+               <li>Optimized deployment processes using Jenkins and Docker, and assisted with AWS infrastructure management using Terraform
+               </li>
+               <li>Contributed to technical documentation and presented project findings to stakeholders, showcasing the benefits of schema federation
                </li>
               </ul>`,
     images: [
@@ -17,7 +29,9 @@ const projectDetailData = [
   {
     title: "Te Tuhi Disability Training Cafe Platform for Trainees",
     details: `<ul>
-                <li><strong>Tech utilised:</strong> AWS services, Figma, Flutter, GraphQL, Jira, ClickUp, Lucid Chart, VSCode, Github</li>
+                <li><strong>Tech Stack:</strong> AWS services, Figma, Flutter, GraphQL, Jira, ClickUp, Lucid Chart, VSCode, Github</li>
+                <li>Designed and implemented both front-end (Flutter) and back-end (GraphQL) features.</li>
+                <li>Contributed to system architecture planning and database design.</li>
                 <li>Nominated for Community Impact Award & Peoples' Choice Award.</li>
                 <li>Received the <strong>People's Choice Award</strong> for Best Computer Science Capstone Project.</li>
               </ul>`,
@@ -40,11 +54,14 @@ const projectDetailData = [
     title: "Podcast Website (3-person project)",
     details: `<ul>
                 <li>
-                    <strong>Tech utilised:</strong> Python, Flask, SQLAlchemy ORM, HTML/CSS, Jinja
+                    <strong>Tech Stack:</strong> Python, Flask, SQLAlchemy ORM, HTML/CSS, Jinja
                 </li>
-                <li>Followed TDD principles with comprehensive unit tests for domain models and service layers</li>
-                <li>Integration and system testing</li>
-                <li>Repository pattern implemented (memory + database layers for seamless data management)</li>
+                <li>Implemented the Repository Pattern with both memory and database layers for seamless data management</li>
+                <li>Built responsive UI using HTML, CSS, and Jinja templates</li>
+                <li>Implemented user authentication and features for reviews, ratings, and playlist management.</li>
+                <li>Followed TDD principles with comprehensive unit tests with Pytest for domain models and service layers</li>
+                <li>Conducted Integration and system testing to ensure end-to-end functionality</li>
+                
               </ul>`,
     images: [
       "assets/images/podcast-main.png",
@@ -56,18 +73,10 @@ const projectDetailData = [
       '<iframe src="https://drive.google.com/file/d/1oRjyOKgk_onZvc5fp6WRRKVmwouEdx3A/preview" width="640" height="480" allow="autoplay"></iframe>',
   },
   {
-    title: "New Zealand Sign Language (NZSL) website",
-    details: `<ul>
-                <li>
-                    <strong>Tech utilised:</strong> C#, .NET, JavaScript, HTML, CSS, SQLite
-                </li>
-            </ul>`,
-    images: ["assets/images/335.png"],
-    videoUrl: "",
-  },
-  {
     title: "A Paired Approach to Tackling Food Insecurity at UW",
     details: `<ul>
+                <li>Conducted paper prototyping, usability testing, and digital mockups to ensure an intuitive user experience.
+                </li>
                 <li>
                     Received “Most Impactful For UW Students” Award
                 </li>
@@ -89,10 +98,38 @@ const projectDetailData = [
     title: "Interactive CV",
     details: `<ul>
                 <li>
-                    <strong>Tech utilised:</strong> Nodejs, Postman, JavaScript, CSS, HTML, Git, Github 
+                    <strong>Tech Stack:</strong> Nodejs, Postman, JavaScript, CSS, HTML, Git, Github, MongoDB, Mongoose
                 </li>
+                <li>Developed a full-stack web application to showcase a personalized, interactive CV with real-time feedback features.
+                </li>
+                <li>Used Node.js as the back-end server, handling requests, managing data flow, and integrating with MongoDB to store user feedback and other dynamic data.
+                </li>
+                <li>Implemented a RESTful API with Express.js to manage interactions between the front-end and back-end
+                </li>
+                <li>Designed the front-end using HTML, CSS, and JavaScript, creating a dynamic and responsive user interface
+                </li>
+
+
               </ul>`,
-    images: ["assets/favicon.ico"],
+    images: [
+      "assets/favicon.ico",
+      "assets/images/archiDiag.png",
+      "assets/images/archiDiag2.png",
+    ],
+  },
+  {
+    title: "New Zealand Sign Language (NZSL) website",
+    details: `<ul>
+                <li>
+                    <strong>Tech Stack:</strong> C#, .NET, JavaScript, HTML, CSS, SQLite
+                </li>
+                <li>Gained hands-on experience in full-stack web development, combining front-end design and back-end logic from the ground up
+                </li>
+                <li>Implemented user authentication and authorization using built-in .NET security practices
+                </li>
+            </ul>`,
+    images: ["assets/images/335.png"],
+    videoUrl: "",
   },
 ];
 
