@@ -11,9 +11,9 @@ const projectDetailData = [
                </li>
                <li>Developed front-end features with React, TypeScript, and Tailwind CSS, integrating with the federated GraphQL backend.
                </li>
-               <li>Implemented Auth0 for user authentication and used JWT tokens to manage authorization and permissions.
+               <li>Implemented Auth0 for user authentication and used JWT tokens to manage authorisation and permissions.
                </li>
-               <li>Optimized deployment processes using Jenkins and Docker, and assisted with AWS infrastructure management using Terraform
+               <li>Optimised deployment processes using Jenkins and Docker, and assisted with AWS infrastructure management using Terraform
                </li>
                <li>Contributed to technical documentation and presented project findings to stakeholders, showcasing the benefits of schema federation
                </li>
@@ -48,7 +48,7 @@ const projectDetailData = [
       "assets/images/inka-database.png",
     ],
     videoUrl:
-      '<iframe src="https://drive.google.com/file/d/1eun-5AN52UQrMWFOLViWtgxNJWm0ND9_/preview" width="640" height="480" allow="autoplay"></iframe>',
+      '<iframe width="560" height="315" src="https://www.youtube.com/embed/zaYUskN_kiw?si=cHGJ0N9qWMfRum6g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
   },
   {
     title: "Podcast Website (3-person project)",
@@ -100,7 +100,7 @@ const projectDetailData = [
                 <li>
                     <strong>Tech Stack:</strong> Nodejs, Postman, JavaScript, CSS, HTML, Git, Github, MongoDB, Mongoose
                 </li>
-                <li>Developed a full-stack web application to showcase a personalized, interactive CV with real-time feedback features.
+                <li>Developed a full-stack web application to showcase a personalised, interactive CV with real-time feedback features.
                 </li>
                 <li>Used Node.js as the back-end server, handling requests, managing data flow, and integrating with MongoDB to store user feedback and other dynamic data.
                 </li>
@@ -125,7 +125,7 @@ const projectDetailData = [
                 </li>
                 <li>Gained hands-on experience in full-stack web development, combining front-end design and back-end logic from the ground up
                 </li>
-                <li>Implemented user authentication and authorization using built-in .NET security practices
+                <li>Implemented user authentication and authorisation using built-in .NET security practices
                 </li>
             </ul>`,
     images: ["assets/images/335.png"],

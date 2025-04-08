@@ -924,13 +924,11 @@ input:checked + .slider:before {
   background-color: #7d99b4;
 }
 
-/* Add these styles to your existing style.css */
-
 /* Comments Container */
 #all-comments-container {
   font-family: "Poppins", serif;
   font-size: 1em;
-  margin: 2em; /* Add margin to separate from other elements */
+  margin: 2em;
 }
 
 .comment-item {
